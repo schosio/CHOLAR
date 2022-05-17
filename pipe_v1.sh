@@ -2,9 +2,6 @@
 set -e
 set -v
 
-
-# activate conda environment where all softwares and programms are installed
-conda activate base
 #seting variables
 
 # threads variable denote the number of cores that are going to be used in the program
