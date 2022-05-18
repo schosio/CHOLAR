@@ -1,5 +1,6 @@
 # library(BiocManager)
 # calling DESeq2 library
+install.package("DESeq2)")
 library(DESeq2)
 
 # directory = /path/to/count/files
