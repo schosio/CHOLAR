@@ -2,8 +2,6 @@
 # calling DESeq2 library
 library(DESeq2)
 
-# directory = /path/to/count/files
-getwd()
 directory = getwd()
 # table contating count file names
 meta <- data.frame('file_name'=grep('count.txt',list.files(directory),value=TRUE))
