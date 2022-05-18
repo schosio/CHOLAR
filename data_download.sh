@@ -9,7 +9,7 @@
 srr_acc=SRR_Acc.txt
 
 # out_dir=location of output directory
-out_dir=
+out_dir=$PWD
 
 # for checking space
 touch temp_space.txt
