@@ -6,15 +6,13 @@ map_file=$1
 # variable for mentioning pattern of files to be picked, example .fastq
 pattern=$2
 
-# delimiter for seperating filename, example _
-delim=$3
 #create a for loop to collect the files for which name has to chnaged 
 for i in *${pattern}
         do
 	# storing first part of the filename which has to checked in mapping file
-	name=$(echo $i | awk -F "${delim}" '{print $1}')
+	name=$(echo $i | awk -F "_" '{print $1}')
 	# storing second part of the filename which will be used as it is in new filename
-        ext=$(echo $i | awk -F "${delim}" '{print $2}')
+        ext=$(echo $i | awk -F "_" '{print $2}')
 	# starting while to open map file
         while read -r line
                 do
@@ -26,7 +24,7 @@ for i in *${pattern}
                 if [ $name == $first ]
                 then
 		# if the condition is true, changing the filename using corresponding second value in the map file 
-                    	mv ${name}${delim}${ext} ${second}${delim}${ext}
+                    	mv ${name}_${ext} ${second}_${ext}
                 fi
                 done < ${map_file}
         done
