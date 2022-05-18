@@ -1,3 +1,6 @@
+#!/usr/bin/env Rscript
+
+
 # library(BiocManager)
 # calling DESeq2 library
 library(DESeq2)
