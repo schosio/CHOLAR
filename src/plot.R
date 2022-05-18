@@ -3,18 +3,17 @@
 library(DESeq2)
 
 # directory = /path/to/count/files
-getwd()
-directory<-'/home/nikola/Haneesh_exosomes/htseq_files/'
+directory = getwd()
 # table contating count file names
 meta <- data.frame('file_name'=grep('count.txt',list.files(directory),value=TRUE))
 # adding empty coloumn for condition
-meta$condition <- NA
+# meta$condition <- NA
 # filling values for condition
-#automate the prefix input #help : https://stackoverflow.com/questions/52060891/extract-substring-in-r-using-grepl
+# automate the prefix input #help : https://stackoverflow.com/questions/52060891/extract-substring-in-r-using-grepl
 g = regmatches(meta$file_name, regexpr("(?<=)[^ ]+(?=[-])", meta$file_name, perl = TRUE))
 g2 = as.data.frame(g)
-meta$condition2 = cbind(g2)
-for (i in 1:nrow(meta)){meta$condition[i] <- if (grepl("PCUE",meta$file_name[i])) "PCUE" else "BPHUE"}
+meta$condition = cbind(g2)
+# for (i in 1:nrow(meta)){meta$condition[i] <- if (grepl("PCUE",meta$file_name[i])) "PCUE" else "BPHUE"}
 # making variable for table that'll be given as input to DESEq
 # sampleFiles will have file names
 sampleFiles<-as.character(meta$file_name)
@@ -51,7 +50,7 @@ dev.off()
 
 ## Output DEG file
 
-write.csv(as.data.frame(res),file='DEG_res.csv')
+write.csv(as.data.frame(res),file='DEG.csv')
 
 ## PLOT COUNT
 
@@ -63,7 +62,7 @@ dev.off()
 
 
 #volcano plot
-results <- read.csv('/home/nikola/Haneesh_exosomes/htseq_files/DEG_res.csv')
+results <- read.csv('/DEG.csv')
 results = results[!duplicated(results$X),]
 #results = results[!duplicated(results$SYMBOL),]
 library(ggrepel)
@@ -83,7 +82,6 @@ p+geom_text_repel(data=filter(results,padj <0.05 & abs(log2FoldChange)>2), aes(l
 
 #heatmap
 
-directory<-'/home/nikola/Haneesh_exosomes/htseq_files/'
 meta <- data.frame('file_name'=grep('count.txt',list.files(directory),value=TRUE))
 meta$file_name <- as.character(meta$file_name)
 setwd(directory)
