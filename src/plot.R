@@ -77,13 +77,6 @@ ggplot(results, aes(log2FoldChange, -log10(padj))) +
   scale_color_manual(values=c("black", "#ca0020")) + 
   ggtitle("Volcano Plot")
 dev.off()
-#p
-#head(results)
-#p = ggplot(results, aes(log2FoldChange, -log10(padj))) +
-  geom_point(aes(col=sig)) +  ylim(c(0,2)) + xlim(c(-5,5)) +
-  scale_color_manual(values=c("black", "#ca0020")) + 
-  ggtitle("Volcano Plot")
-#p+geom_text_repel(data=filter(results,padj <0.05 & abs(log2FoldChange)>2), aes(label=X))
 
 #heatmap
 
