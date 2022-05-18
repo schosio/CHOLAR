@@ -2,6 +2,8 @@
 set -e
 set -v
 
+# configure the system for running the master_script.sh
+bash configure.sh
 #seting variables
 
 # threads variable denote the number of cores that are going to be used in the program
