@@ -1,5 +1,8 @@
 #!/bin/bash
 
+script_dir=$PWD
+
+
 which conda || which anaconda > /dev/null 2>&1
 
 if [[ $? -ne 0 ]]; then
@@ -380,3 +383,74 @@ if [[ $? -ne 0 ]]; then
 fi
 
 which R > dev/null 2>&1
+
+
+if [[ $? -ne 0 ]]; then
+              	echo "
+                      #########################################
+
+                                 r not installed
+
+                      #########################################  
+
+                                 So let's install it
+
+                      #########################################
+
+                               Installing r now !!
+
+                      #########################################
+                      "
+                      
+                     conda install -q -y -c r r
+                     
+                     echo "
+                      ##########################################
+                      
+                                  Installed r      
+                                
+                      ##########################################
+                      "
+            else
+              	
+                        
+                        
+                        echo "
+                      ##########################################
+                      
+                             r is already installed      
+                                
+                      ##########################################
+                      "
+fi
+                     
+
+# Downloading Reference annotation file from Gencode
+
+mkdir -p /opt/genome/human/hg38/annotation
+curl -OL "https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_40/gencode.v40.chr_patch_hapl_scaff.annotation.gtf.gz"
+mv *.annotation.gtf.gz /opt/genome/human/hg38/annotation
+cd /opt/genome/human/hg38/annotation
+gzip -d gencode.v40.chr_patch_hapl_scaff.annotation.gtf.gz
+
+# create splice site file
+hisat2_extract_splice_sites.py gencode.v40.chr_patch_hapl_scaff.annotation.gtf > gencode.v40.splicesite.annotation.ss
+
+# Downloading reference genome
+
+cd $script_dir
+curl -OL "http://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/hg38.fa.gz"
+mkdir -p /opt/genome/human/hg38/ref_gen
+mv hg38.fa.gz /opt/genome/human/hg38/ref_gen
+cd /opt/genome/human/hg38/ref_gen
+gzip -d hg38.fa.gz
+
+#index building 
+
+hisat2-build hg38.fa gh38
+
+# Installing R packages
+
+R -e 'install.packages(c("BiocManager", "ggrepel", "dplyr", "ggplot", "data.table"));source("https://bioconductor.org/biocLite.R");biocLite(c("DESeq2"))'
+
+
