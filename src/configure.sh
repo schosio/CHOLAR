@@ -2,6 +2,8 @@
 
 script_dir=$PWD
 
+apt-get install -y curl
+
 
 which conda || which anaconda > /dev/null 2>&1
 
@@ -27,7 +29,9 @@ if [[ $? -ne 0 ]]; then
                 "
                 
                 curl -O https://repo.anaconda.com/miniconda/Miniconda3-py39_4.11.0-Linux-x86_64.sh
-                bash Miniconda3-py39_4.11.0-Linux-x86_64.sh -b -p 
+                bash Miniconda3-py39_4.11.0-Linux-x86_64.sh -b -p $HOME/miniconda
+                eval "$($HOME/miniconda/bin/conda shell.bash hook)"
+                conda init
                 source ~/.bashrc
                 
                 echo "
@@ -38,13 +42,13 @@ if [[ $? -ne 0 ]]; then
                       ##########################################
                       "
                 ## Creating and activating conda environment named ngs
-                conda create -n ngs python=3
+                conda create -q -y -n ngs python=3
                 conda activate ngs
                 rm Miniconda3-py39_4.11.0-Linux-x86_64.sh
                 
                 
         else
-              	conda create -n ngs python=3
+              	conda create -q -y -n ngs python=3
                 conda activate ngs
                 echo "
                       #########################################
