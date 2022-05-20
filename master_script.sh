@@ -6,17 +6,19 @@ set -v
 bash configure.sh
 #seting variables
 
-# threads variable denote the number of cores that are going to be used in the program
-threads=40
-
 #idx = location of reference genome index of the aligner to be used
 # in this case it is hisat2 and it was created using hisat2-build function
-idx=/home/chaos/INDEX/hg38/hisat2/hg38
+idx=$1
+
+# threads variable denote the number of cores that are going to be used in the program
+threads=$2
+
+#annotation = location of annotation file
+annotation=$3
 
 #splicefile = location of gtf annotation file, created using hisat2
 # command to create splicesite file is:  python hisat2_extract_splice_sites.py
-splicefile=/home/chaos/GENCODE/annotation_file/gencode.v38.splice.txt
-
+splicefile=$4
 
 # date command to log the timestamp
 date
@@ -101,8 +103,6 @@ done
 rm *.sorted.bam
 rm *.fastq
 
-#annotation = location of annotation file
-annotation=/home/chaos/GENCODE/annotation_file/gencode.v38.annotation.gtf
 
 for i in *rmPCRdup.bam
 do
@@ -150,3 +150,7 @@ do
 done
 
 mv *.count.txt htseq_files/
+
+cd htseq_files/
+
+#something
