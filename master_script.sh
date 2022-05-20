@@ -153,4 +153,4 @@ mv *.count.txt htseq_files/
 
 cd htseq_files/
 
-#something
+plot.R
