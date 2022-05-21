@@ -5,7 +5,7 @@ set -v
 # configure the system for running the master_script.sh
 bash configure.sh
 #seting variables
-
+script_dir=$PWD
 #idx = location of reference genome index of the aligner to be used
 # in this case it is hisat2 and it was created using hisat2-build function
 idx=$1
@@ -28,11 +28,10 @@ mkdir raw_fastqc_report
 
 # run fastqc on all fastq or fastq.gz files
 find . -type f \( -name "*.fastq.gz" -o -name "*.fastq" \) | parallel -j $threads -v -I% --max-args 1 fastqc -o raw_fastqc_report/
-cd raw_fastqc_report
-#running multiqc to combine all fastqc reports
-multiqc .
 
-cd ..
+#running multiqc to combine all fastqc reports
+multiqc $script_dir/raw_fastqc_report
+
 # prossesing the data using trimmomatic v 0.39
 date
 for infile in *1.fastq
@@ -64,10 +63,9 @@ mv *SummaryFile.txt trim_summary
 cd Paired/
 mkdir processed_fastqc_report
 find . -type f \( -name "*.fastq.gz" -o -name "*.fastq" \) | parallel -j $threads -v -I% --max-args 1 fastqc -o processed_fastqc_report/
-cd processed_fastqc_report
-multiqc .
 
-cd ..
+multiqc /processed_fastqc_report
+
 #moving processed files into main directory
 mv processed_fastqc_report/ ../
 
@@ -138,6 +136,10 @@ cat common-merged.annotated.gtf |  awk '$3=="transcript" && $2=="StringTie"' | g
 # extract the genomic sequences of the novel transcripts.
 
 gffread -w common_novel_transcript_seq.fa -g $idx common_novel_transcript.gtf
+
+# run CPAT
+
+cpat.py -x $R/files/Human_Hexamer_hg38.tsv --antisense -d $R/files/Human.logit.RData --top-orf=5 -g common_novel_transcript_seq.fa -o coding_potential_output
 
 # run htseq count
 mkdir htseq_files
