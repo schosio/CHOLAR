@@ -4,6 +4,7 @@ script_dir=$PWD
 
 apt-get install -y curl
 apt-get install -y parallel
+apt-get install -y python3-pip
 
 
 which conda || which anaconda > /dev/null 2>&1
@@ -436,6 +437,10 @@ curl -O http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/Trimmomat
 mv Trimmomatic-0.39.zip /opt/software
 cd /opt/software
 unzip Trimmomatic-0.39.zip
+
+# install CPAT
+pip3 install CPAT
+
 # Downloading Reference annotation file from Gencode
 
 mkdir -p /opt/genome/human/hg38/annotation
