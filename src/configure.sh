@@ -407,7 +407,7 @@ if [[ $? -ne 0 ]]; then
                       #########################################
                       "
                       
-                     conda install -q -y -c r r
+                     conda install -q -y -c r r-base
                      
                      echo "
                       ##########################################
@@ -430,6 +430,12 @@ if [[ $? -ne 0 ]]; then
 fi
                      
 
+# download and place Trimmomatic
+mkdir -p /opt/software
+curl -O http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/Trimmomatic-0.39.zip
+mv Trimmomatic-0.39.zip /opt/software
+cd /opt/software
+unzip Trimmomatic-0.39.zip
 # Downloading Reference annotation file from Gencode
 
 mkdir -p /opt/genome/human/hg38/annotation
