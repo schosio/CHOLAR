@@ -25,7 +25,7 @@ for sample in `seq 1 "${#arr[@]}"`; do
 	READ1b+=( ${READ1a} )
 done
 
-if [ ${se_pe} = "Paired_end" ]; then
+if [[ ${se_pe} = "Paired_end" ]]; then
 	for sample in `seq 1 "${#arr[@]}"`; do
 		zenity --info --title="READ-2" --text="Select read-2 file for "${arr[$(($sample-1))]} --ok-label="OK";
 		READ2a=$(zenity --file-selection --filename /opt/ngs/raw_data/ --title="***READ-2***"  --text="Select read-2 file");
@@ -38,7 +38,7 @@ READ1=$(join , ${READ1b[@]})
 READ2=$(join , ${READ2b[@]})
 
 zenity --info --title="Reference genome Hisat2" --text="Select reference genome for Hisat2" --ok-label="OK" 
-o
+
 REF_HISAT=$(zenity --file-selection --filename /opt/genome/human/hg38/ref_gen/hg19.fa --title="***Reference genome Hisat2***"  --text="Select reference genome for Hisat2")
 REF_HISAT=$(echo $REF_HISAT | sed s/.fa//g)
 
