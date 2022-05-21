@@ -3,6 +3,7 @@
 script_dir=$PWD
 
 apt-get install -y curl
+apt-get install -y parallel
 
 
 which conda || which anaconda > /dev/null 2>&1
@@ -29,10 +30,10 @@ if [[ $? -ne 0 ]]; then
                 "
                 
                 curl -O https://repo.anaconda.com/miniconda/Miniconda3-py39_4.11.0-Linux-x86_64.sh
-                bash Miniconda3-py39_4.11.0-Linux-x86_64.sh -b -p $HOME/miniconda
-                eval "$($HOME/miniconda/bin/conda shell.bash hook)"
-                conda init
+                bash Miniconda3-py39_4.11.0-Linux-x86_64.sh -b 
+                eval "$($HOME/miniconda3/bin/conda shell.bash hook)"
                 source ~/.bashrc
+                
                 
                 echo "
                       ##########################################
