@@ -5,6 +5,9 @@ description=$(zenity --forms --title="Identification of LncRNA" --text="Assign e
 [cntrl,cntrl,treat,treat]" --add-entry="LOG NAME" --add-entry="COMPARISONS 
 (sep by '_VS_' and ',' for multiple comparisons)
 [cntrl_VS_treat1,cntrl_VS_treat2]" --width=700 --)
+
+[[ $? != 0 ]] && exit 1
+
 pname=$(echo $description | cut -d'|' -f1)
 poolname=$(echo $description | cut -d'|' -f2)
 snames=$(echo $description | cut -d'|' -f3)
@@ -18,6 +21,8 @@ READ1b=()
 READ2b=()
 
 se_pe=$(zenity --list --text="" --radiolist --column "" --column "" --hide-header --title="Paired end/Single end" TRUE "Paired_end" FALSE "Single_end")
+
+[[ $? != 0 ]] && exit 1
 
 for sample in `seq 1 "${#arr[@]}"`; do
 	zenity --info --title="READ-1" --text="Select read-1 file for "${arr[$(($sample-1))]} --ok-label="OK";
@@ -38,29 +43,51 @@ READ1=$(join , ${READ1b[@]})
 READ2=$(join , ${READ2b[@]})
 
 zenity --info --title="Reference genome Hisat2" --text="Select reference genome for Hisat2" --ok-label="OK" 
+[[ $? != 0 ]] && exit 1
+
 
 REF_HISAT=$(zenity --file-selection --filename /opt/genome/human/hg38/ref_gen/hg19.fa --title="***Reference genome Hisat2***"  --text="Select reference genome for Hisat2")
+[[ $? != 0 ]] && exit 1
 REF_HISAT=$(echo $REF_HISAT | sed s/.fa//g)
 
 zenity --info --title="Annotation GTF file" --text="Select Annotation GTF file" --ok-label="OK" 
+[[ $? != 0 ]] && exit 1
+
 GTF=$(zenity --file-selection --filename /opt/genome/human/hg38/annotation/gencode.v40.chr_patch_hapl_scaff.annotation.gtf --title="***Annotation GTF file***"  --text="Select Annoatation GTF file")
+[[ $? != 0 ]] && exit 1
 
 zenity --info --title="Splice Site file" --text="Select Splice Site file" --ok-label="OK" 
+[[ $? != 0 ]] && exit 1
+
 SS=$(zenity --file-selection --filename /opt/genome/human/hg38/annotation/gencode.v40.splicesite.annotation.ss --title="***Splice Site file***"  --text="Select Splice Site file")
+[[ $? != 0 ]] && exit 1
 
 zenity --info --title="Reference genome" --text="Select reference genome" --ok-label="OK" 
+[[ $? != 0 ]] && exit 1
+
 REF=$(zenity --file-selection --filename /opt/genome/human/hg38/ref_gen/hg38.fa --title="***Reference genome***"  --text="Select reference genome")
+[[ $? != 0 ]] && exit 1
 
 zenity --info --title="Script path" --text="Select script directory" --ok-label="OK" 
+[[ $? != 0 ]] && exit 1
+
 R=$(zenity --file-selection --directory --filename /opt/applications/src/arpir/ARPIR --title="***Script path***"  --text="Select script directory")
+[[ $? != 0 ]] && exit 1
 
 zenity --info --title="Output directory" --text="Select output directory" --ok-label="OK" 
+[[ $? != 0 ]] && exit 1
+
 OUT=$(zenity --file-selection --directory --title="***Output directory***"  --text="Select output directory")
+[[ $? != 0 ]] && exit 1
 
 zenity --info --title="Log directory" --text="Select log directory" --ok-label="OK" 
+[[ $? != 0 ]] && exit 1
+
 LOGF=$(zenity --file-selection --directory --filename /opt/ngs/logs --title="***Log directory***"  --text="Select log directory")
+[[ $? != 0 ]] && exit 1
 
 threads=$(zenity --forms --title="THREADS" --text="Number of threads" --add-entry="THREADS")
+[[ $? != 0 ]] && exit 1
 
 echo "project_name = "$pname"
 
