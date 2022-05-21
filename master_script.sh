@@ -113,7 +113,6 @@ do
 done
 
 
-annotation=/home/chaos/GENCODE/annotation_file/gencode.v38.annotation.gtf
 #out_file = name of merged tf file
 out_file=data_merge_annotation.gtf
 ls *gencode.gtf > temp.gtf.list
@@ -138,7 +137,7 @@ cat common-merged.annotated.gtf |  awk '$3=="transcript" && $2=="StringTie"' | g
 
 # extract the genomic sequences of the novel transcripts.
 
-gffread -w common_novel_transcript_seq.fa -g /home/chaos/INDEX/hg38/hisat2/hg38.fa common_novel_transcript.gtf
+gffread -w common_novel_transcript_seq.fa -g $idx common_novel_transcript.gtf
 
 # run htseq count
 mkdir htseq_files
