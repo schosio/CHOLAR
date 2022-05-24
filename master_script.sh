@@ -2,10 +2,8 @@
 set -e
 set -v
 
-# configure the system for running the master_script.sh
-bash configure.sh
 #seting variables
-script_dir=$PWD
+
 #idx = location of reference genome index of the aligner to be used
 # in this case it is hisat2 and it was created using hisat2-build function
 idx=$1
@@ -20,17 +18,22 @@ annotation=$3
 # command to create splicesite file is:  python hisat2_extract_splice_sites.py
 splicefile=$4
 
+# input files directory
+
+in_dir=$5
+
 # date command to log the timestamp
 date
 
+cd $in_dir
 #creating directory for storing fastqc_report of raw fastq files
 mkdir raw_fastqc_report
 
 # run fastqc on all fastq or fastq.gz files
-find . -type f \( -name "*.fastq.gz" -o -name "*.fastq" \) | parallel -j $threads -v -I% --max-args 1 fastqc -o raw_fastqc_report/
+find $in_dir -type f \( -name "*.fastq.gz" -o -name "*.fastq" \) | parallel -j $threads -v -I% --max-args 1 fastqc -o raw_fastqc_report/
 
 #running multiqc to combine all fastqc reports
-multiqc $script_dir/raw_fastqc_report
+multiqc /raw_fastqc_report
 
 # prossesing the data using trimmomatic v 0.39
 date
