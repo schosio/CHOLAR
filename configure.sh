@@ -2,11 +2,29 @@
 
 script_dir=$PWD
 
+apt update -y
+
 apt-get install -y curl
 apt-get install -y parallel
 apt-get install -y python3-pip
 apt-get install -y git
+apt-get install -y libcurl4-openssl-dev
+apt-get install -y libmagick++-dev
+apt-get install -y libmariadbclient-dev
+apt-get install -y libssl-dev
 
+###########################    ##############################
+
+wget https://github.com/curl/curl/releases/download/curl-7_55_0/curl-7.55.0.tar.gz 
+tar -xvzf curl-7.55.0.tar.gz
+rm curl-7.55.0.tar.gz
+cd curl-7.55.0/  
+./configure
+make 
+make install
+cd ..
+
+###########################    ##############################
 
 which conda || which anaconda > /dev/null 2>&1
 
@@ -51,7 +69,7 @@ if [[ $? -ne 0 ]]; then
                 
                 
         else
-              	conda create -q -y -n ngs python=3
+                conda create -q -y -n ngs python=3
                 conda activate ngs
                 echo "
                       #########################################
@@ -477,6 +495,10 @@ hisat2-build hg38.fa hg38
 
 # Installing R packages
 
-R -e 'install.packages(c("BiocManager", "ggrepel", "dplyr", "ggplot", "data.table"));source("https://bioconductor.org/biocLite.R");biocLite(c("DESeq2"))'
-
 R -e 'if (!requireNamespace("BiocManager", quietly = TRUE));install.packages("BiocManager")'
+
+R -e 'install.packages(c("BiocManager", "ggrepel", "dplyr", "ggplot", "data.table"), repos="https://cloud.r-project.org")'
+
+R -e 'pkgs <- rownames(installed.packages());BiocManager::install(pkgs, type = "source", checkBuilt = TRUE);BiocManager::install("DESeq2")'
+
+
