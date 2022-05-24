@@ -61,7 +61,10 @@ zenity --info --title="Log directory" --text="Select log directory" --ok-label="
 LOGF=$(zenity --file-selection --directory --filename /opt/ngs/logs --title="***Log directory***"  --text="Select log directory")
 [[ $? != 0 ]] && exit 1
 
-threads=$(zenity --forms --title="THREADS" --text="Number of threads" --add-entry="THREADS")
+th=$(nproc --all)
+th=$(($th-2))
+
+threads=$(zenity --scale --title="Threads" --text="For faster analysis, select more no of threads" --max-value=$th)
 [[ $? != 0 ]] && exit 1
 
 echo "
@@ -84,17 +87,10 @@ log_directory = "$LOGF"
 
 threads = "$threads | zenity --text-info --title="Summary" --width=700 --height=600 --ok-label="OK" --cancel-label="Cancel"
 
-if [ ${se_pe} = "Paired_end" ]; then
-	if [ "$?" -eq "0" ]; then
-		cd ${OUT}
-		bash $R/master.sh $REF $threads $GTF $SS #-n $pname -pn $poolname -sn $snames -r1 $READ1 -r2 $READ2 -type $stype -rb $REF_BOWTIE -rh $REF_HISAT -rs $REF_STAR -bed $BED -ph $PHIX -rib1 $RIB1 -rib2 $RIB2 -t $threads -g $GTF -a $alignment -l $library -q $quant -r $REF -dea $dea -r_path $R -o $OUT -tertiary $tertiary -cat $max_cat -comp $comp 2>&1 >> ${LOGF}/${LOG}.log
-	fi
+
+if [ "$?" -eq "0" ]; then
+	cd ${OUT}
+	bash $R/master.sh
 fi
 
-#if [ ${se_pe} = "Single_end" ]; then
-#	if [ "$?" -eq "0" ]; then
-#		cd ${OUT}
-#		python $R/ARPIR.py -n $pname -pn $poolname -sn $snames -r1 $READ1 -type $stype -rb $REF_BOWTIE -rh $REF_HISAT -rs $REF_STAR -bed $BED -ph $PHIX -rib1 $RIB1 -rib2 $RIB2 -t $threads -g $GTF -a $alignment -l $library -q $quant -r $REF -dea $dea -r_path $R -o $OUT -tertiary $tertiary -cat $max_cat -comp $comp 2>&1 >> ${LOGF}/${LOG}.log
-#	fi
-#fi
 
