@@ -49,10 +49,10 @@ zenity --info --title="Script path" --text="Select script directory" --ok-label=
 R=$(zenity --file-selection --directory --filename /opt/applications/src/arpir/ARPIR --title="***Script path***"  --text="Select script directory")
 [[ $? != 0 ]] && exit 1
 
-zenity --info --title="Output directory" --text="Select output directory" --ok-label="OK" 
+zenity --info --title="Input files directory" --text="Select Input files directory" --ok-label="OK" 
 [[ $? != 0 ]] && exit 1
 
-OUT=$(zenity --file-selection --directory --title="***Output directory***"  --text="Select output directory")
+IN=$(zenity --file-selection --directory --title="***Input Files directory***"  --text="Select Input files directory")
 [[ $? != 0 ]] && exit 1
 
 zenity --info --title="Log directory" --text="Select log directory" --ok-label="OK" 
@@ -90,7 +90,7 @@ threads = "$threads | zenity --text-info --title="Summary" --width=700 --height=
 
 if [ "$?" -eq "0" ]; then
 	cd ${OUT}
-	bash $R/master.sh
+	bash $R/master.sh 
 fi
 
 
