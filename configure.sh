@@ -469,6 +469,17 @@ unzip Trimmomatic-0.39.zip
 # install CPAT
 pip3 install CPAT
 
+#downloading Cpat files
+
+mkdir -p /opt/genome/human/CPAT
+curl -OL "https://github.com/schosio/CHOLAR/blob/f713ab972a42e31dac29e155053c606eed67826c/files/Human.logit.RData"
+mv Human.logit.RData /opt/genome/human/CPAT
+
+curl -OL "https://github.com/schosio/CHOLAR/blob/f713ab972a42e31dac29e155053c606eed67826c/files/Human_Hexamer_hg38.tsv"
+mv Human_Hexamer_hg38.tsv /opt/genome/human/CPAT
+
+
+
 # Downloading Reference annotation file from Gencode
 
 mkdir -p /opt/genome/human/hg38/annotation
