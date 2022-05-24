@@ -5,6 +5,7 @@ script_dir=$PWD
 apt-get install -y curl
 apt-get install -y parallel
 apt-get install -y python3-pip
+apt-get install -y git
 
 
 which conda || which anaconda > /dev/null 2>&1
@@ -407,8 +408,12 @@ if [[ $? -ne 0 ]]; then
 
                       #########################################
                       "
-                      
-                     conda install -q -y -c r r-base
+                     
+                     
+                     conda config --add channels conda-forge
+                     conda config --set channel_priority strict
+                     conda install -q -y -c conda-forge r-base
+                     
                      
                      echo "
                       ##########################################
@@ -428,6 +433,11 @@ if [[ $? -ne 0 ]]; then
                                 
                       ##########################################
                       "
+                      r_ver=$(R --version | grep "R version" | cut -d " " -f3 | cut -d "." -f1)
+                      if [[ $r_ver<=3 ]]; then
+                        conda config --add channels conda-forge
+                        conda config --set channel_priority strict
+                        conda update -c conda-forge r-base
 fi
                      
 
