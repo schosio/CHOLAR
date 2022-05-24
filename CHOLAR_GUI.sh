@@ -2,7 +2,7 @@
 description=$(zenity --forms --title="Identification of LncRNA" --text="Assign experiment code (no spaces!)" --add-entry="SAMPLE NAMES 
 (sep by ',')
 [Samplel,Sample2,Sample3,Sample4]" --add-entry="SAMPLE TYPES (sep by ',')
-[cntrl,cntrl,treat,treat]" --width=700)
+{ add condion in same order as sample } [cntrl,cntrl,treat,treat]")
 
 [[ $? != 0 ]] && exit 1
 snames=$(echo $description | cut -d'|' -f1)
