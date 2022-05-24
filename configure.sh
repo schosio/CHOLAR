@@ -479,4 +479,4 @@ hisat2-build hg38.fa hg38
 
 R -e 'install.packages(c("BiocManager", "ggrepel", "dplyr", "ggplot", "data.table"));source("https://bioconductor.org/biocLite.R");biocLite(c("DESeq2"))'
 
-
+R -e 'if (!requireNamespace("BiocManager", quietly = TRUE));install.packages("BiocManager")'
