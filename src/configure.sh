@@ -473,7 +473,7 @@ gzip -d hg38.fa.gz
 
 #index building 
 
-hisat2-build hg38.fa gh38
+hisat2-build hg38.fa hg38
 
 # Installing R packages
 
