@@ -90,7 +90,7 @@ threads = "$threads | zenity --text-info --title="Summary" --width=700 --height=
 
 if [ "$?" -eq "0" ]; then
 	
-	bash $R/source/master_script.sh $REF $threads $GTF $SS $IN
+	bash $R/source/master_script.sh $REF $threads $GTF $SS $IN $R
 fi
 
 
