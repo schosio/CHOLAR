@@ -21,7 +21,7 @@ do
         echo "${arr[idx]}       ${arr2[idx]}" >>map.txt
 done
 
-bash name_change.sh
+bash /source/name_change.sh
 
 rm map.txt
 
@@ -46,7 +46,7 @@ REF=$(zenity --file-selection --filename /opt/genome/human/hg38/ref_gen/hg38.fa 
 zenity --info --title="Script path" --text="Select script directory" --ok-label="OK" 
 [[ $? != 0 ]] && exit 1
 
-R=$(zenity --file-selection --directory --filename /opt/applications/src/arpir/ARPIR --title="***Script path***"  --text="Select script directory")
+R=$(zenity --file-selection --directory --filename $PWD --title="***Script path***"  --text="Select script directory")
 [[ $? != 0 ]] && exit 1
 
 zenity --info --title="Input files directory" --text="Select Input files directory" --ok-label="OK" 
@@ -58,7 +58,7 @@ IN=$(zenity --file-selection --directory --title="***Input Files directory***"  
 zenity --info --title="Log directory" --text="Select log directory" --ok-label="OK" 
 [[ $? != 0 ]] && exit 1
 
-LOGF=$(zenity --file-selection --directory --filename /opt/ngs/logs --title="***Log directory***"  --text="Select log directory")
+LOGF=$(zenity --file-selection --directory --filename /opt/genome/ --title="***Log directory***"  --text="Select log directory")
 [[ $? != 0 ]] && exit 1
 
 th=$(nproc --all)
@@ -90,7 +90,7 @@ threads = "$threads | zenity --text-info --title="Summary" --width=700 --height=
 
 if [ "$?" -eq "0" ]; then
 	
-	bash $R/master_script.sh $REF $threads $GTF $SS $IN
+	bash $R/source/master_script.sh $REF $threads $GTF $SS $IN
 fi
 
 
