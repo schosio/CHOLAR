@@ -161,4 +161,4 @@ mv *.count.txt htseq_files/
 
 cd htseq_files/
 
-plot.R
+$scr_dir/source/plot.R
