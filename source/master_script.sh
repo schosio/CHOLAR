@@ -22,6 +22,10 @@ splicefile=$4
 
 in_dir=$5
 
+# script directory
+
+scr_dir=$6
+
 # date command to log the timestamp
 date
 
@@ -142,7 +146,7 @@ gffread -w common_novel_transcript_seq.fa -g $idx common_novel_transcript.gtf
 
 # run CPAT
 
-cpat.py -x /opt/genome/human/CPAT/Human_Hexamer_hg38.tsv --antisense -d /opt/genome/human/CPAT/Human.logit.RData --top-orf=5 -g common_novel_transcript_seq.fa -o coding_potential_output
+cpat.py -x $scr_dir/files/Human_Hexamer_hg38.tsv --antisense -d $scr_dir/files/Human.logit.RData --top-orf=5 -g common_novel_transcript_seq.fa -o coding_potential_output
 
 # run htseq count
 mkdir htseq_files
