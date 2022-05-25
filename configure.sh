@@ -1,17 +1,47 @@
 #!/bin/bash
 
+# defining functions
+function installUbuntu () {
+		apt-get install -y $1
+	}
+
+function installCentos () {
+		yum install -y $1
+	}
+ 
+function installmacOS ()  {
+                        brew install -y $1
+            }
+ 
+# variables
+Ubu="Ubuntu"
+Cen="CentOS Linux"
+
+linux_dep=( zenity curl parallel python3-pip git libcurl4-openssl-dev libmagick++-dev libmariadbclient-dev libssl-dev)
+os=$(awk -F= '/^NAME/{print $2}' /etc/os-release | tr -d '"')
+
+
+if [ "$(uname)" == "Darwin" ]; then
+            for i in ${linux_dep[@]}; do
+                        installmacOS "$i"
+                        done
+                        
+
+elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+
+            for i in ${linux_dep[@]}; do
+                        if [[ $os==$Ubu ]]; then
+                                    installUbuntu "$i"
+                        elif [[ $os==$Cen ]]; then
+                                    installCentos "$i"
+                        fi
+                        done
+ fi
+            
+
+
+
 script_dir=$PWD
-
-apt update -y
-
-apt-get install -y curl
-apt-get install -y parallel
-apt-get install -y python3-pip
-apt-get install -y git
-apt-get install -y libcurl4-openssl-dev
-apt-get install -y libmagick++-dev
-apt-get install -y libmariadbclient-dev
-apt-get install -y libssl-dev
 
 ###########################    ##############################
 
@@ -48,36 +78,39 @@ if [[ $? -ne 0 ]]; then
 
                       #########################################
                 "
-                
-                curl -O https://repo.anaconda.com/miniconda/Miniconda3-py39_4.11.0-Linux-x86_64.sh
-                bash Miniconda3-py39_4.11.0-Linux-x86_64.sh -b 
-                eval "$($HOME/miniconda3/bin/conda shell.bash hook)"
-                source ~/.bashrc
-                
-                
-                echo "
-                      ##########################################
-                      
-                                Miniconda is Installed      
-                                
-                      ##########################################
-                      "
-                ## Creating and activating conda environment named ngs
-                conda create -q -y -n ngs python=3
-                conda activate ngs
-                rm Miniconda3-py39_4.11.0-Linux-x86_64.sh
-                
-                
-        else
-                conda create -q -y -n ngs python=3
-                conda activate ngs
-                echo "
-                      #########################################
+                if [ "$(uname)" == "Darwin" ]; then
+                            # curl -O https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
+               
+                elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+                            curl -O https://repo.anaconda.com/miniconda/Miniconda3-py39_4.11.0-Linux-x86_64.sh
+                            bash Miniconda3-py39_4.11.0-Linux-x86_64.sh -b 
+                            eval "$($HOME/miniconda3/bin/conda shell.bash hook)"
+                            source ~/.bashrc
 
-                          Anaconda or Miniconda3 installed
 
-                      #########################################  
-                 "
+                            echo "
+                                  ##########################################
+
+                                            Miniconda is Installed      
+
+                                  ##########################################
+                                  "
+                            ## Creating and activating conda environment named ngs
+                            conda create -q -y -n ngs python=3
+                            conda activate ngs
+                            rm Miniconda3-py39_4.11.0-Linux-x86_64.sh
+
+
+                    else
+                            conda create -q -y -n ngs python=3
+                            conda activate ngs
+                            echo "
+                                  #########################################
+
+                                      Anaconda or Miniconda3 installed
+
+                                  #########################################  
+                             "
 fi
 
 
