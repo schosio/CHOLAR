@@ -1,17 +1,4 @@
 #!/bin/bash
-
-# defining functions
-function installUbuntu () {
-		apt-get install -y $1
-	}
-
-function installCentos () {
-		yum install -y $1
-	}
- 
-function installmacOS ()  {
-                        brew install -y $1
-            }
  
 # variables
 Ubu="Ubuntu"
@@ -23,7 +10,7 @@ os=$(awk -F= '/^NAME/{print $2}' /etc/os-release | tr -d '"')
 
 if [ "$(uname)" == "Darwin" ]; then
             for i in ${linux_dep[@]}; do
-                        installmacOS "$i"
+                        brew install -y $i
                         done
                         
 
@@ -31,9 +18,9 @@ elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
 
             for i in ${linux_dep[@]}; do
                         if [[ $os==$Ubu ]]; then
-                                    installUbuntu "$i"
+                                    apt-get install -y $i
                         elif [[ $os==$Cen ]]; then
-                                    installCentos "$i"
+                                    yum install -y $i
                         fi
                         done
  fi
@@ -45,14 +32,19 @@ script_dir=$PWD
 
 ###########################    ##############################
 
-wget https://github.com/curl/curl/releases/download/curl-7_55_0/curl-7.55.0.tar.gz 
-tar -xvzf curl-7.55.0.tar.gz
-rm curl-7.55.0.tar.gz
-cd curl-7.55.0/  
-./configure
-make 
-make install
-cd ..
+which curl >/dev/null 2>&1 
+if [[ $? -ne 0 ]]; then 
+
+	mkdir -p /opt/application
+	cd /opt/application
+	wget -c https://github.com/curl/curl/releases/download/curl-7_55_0/curl-7.55.0.tar.gz 
+	tar -xvzf curl-7.55.0.tar.gz
+	rm curl-7.55.0.tar.gz
+	cd curl-7.55.0/  
+	./configure
+	make 
+	make install
+	cd ..
 
 ###########################    ##############################
 
@@ -103,6 +95,8 @@ if [[ $? -ne 0 ]]; then
 
                     else
                             conda create -q -y -n ngs python=3
+			    conda init bash
+			    source ~/.bashrc
                             conda activate ngs
                             echo "
                                   #########################################
@@ -440,7 +434,7 @@ if [[ $? -ne 0 ]]; then
                       "
 fi
 
-which R > dev/null 2>&1
+which R > /dev/null 2>&1
 
 
 if [[ $? -ne 0 ]]; then
