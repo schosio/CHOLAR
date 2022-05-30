@@ -487,11 +487,18 @@ fi
                      
 
 # download and place Trimmomatic
-mkdir -p /opt/software
-curl -O http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/Trimmomatic-0.39.zip
-mv Trimmomatic-0.39.zip /opt/software
-cd /opt/software
-unzip Trimmomatic-0.39.zip
+d1=/opt/software
+f1=//opt/software/Trimmomatic-0.39.zip
+if [[ ! -d "$d1" ]]; then
+	mkdir -p /opt/software
+	if [[ ! -f "$f1" ]]; then
+		curl -O http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/Trimmomatic-0.39.zip
+		mv Trimmomatic-0.39.zip $d1
+		cd $d1
+		unzip Trimmomatic-0.39.zip
+	
+	fi
+fi
 
 # install CPAT
 pip3 install CPAT
@@ -509,28 +516,46 @@ pip3 install CPAT
 
 # Downloading Reference annotation file from Gencode
 
-mkdir -p /opt/genome/human/hg38/annotation
-curl -OL "https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_40/gencode.v40.chr_patch_hapl_scaff.annotation.gtf.gz"
-mv *.annotation.gtf.gz /opt/genome/human/hg38/annotation
-cd /opt/genome/human/hg38/annotation
-gzip -d gencode.v40.chr_patch_hapl_scaff.annotation.gtf.gz
+d2=/opt/genome/human/hg38/annotation
+f2=/opt/genome/human/hg38/annotation/gencode.v40.chr_patch_hapl_scaff.annotation.gtf
+if [[ ! -d "$d2" ]]; then
+	mkdir -p /opt/genome/human/hg38/annotation
+	if [[ ! -f "$f2" ]]; then
+		curl -OL "https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_40/gencode.v40.chr_patch_hapl_scaff.annotation.gtf.gz"
+		mv *.annotation.gtf.gz /opt/genome/human/hg38/annotation
+		cd /opt/genome/human/hg38/annotation
+		gzip -d gencode.v40.chr_patch_hapl_scaff.annotation.gtf.gz
+		
+	fi
+fi
 
 # create splice site file
-hisat2_extract_splice_sites.py gencode.v40.chr_patch_hapl_scaff.annotation.gtf > gencode.v40.splicesite.annotation.ss
-
+f3=/opt/genome/human/hg38/annotation/gencode.v40.splicesite.annotation.ss
+if [[ ! -f "$f3" ]]; then
+	hisat2_extract_splice_sites.py gencode.v40.chr_patch_hapl_scaff.annotation.gtf > gencode.v40.splicesite.annotation.ss
+fi
 # Downloading reference genome
 
-cd $script_dir
-curl -OL "http://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/hg38.fa.gz"
-mkdir -p /opt/genome/human/hg38/ref_gen
-mv hg38.fa.gz /opt/genome/human/hg38/ref_gen
-cd /opt/genome/human/hg38/ref_gen
-gzip -d hg38.fa.gz
+d3=/opt/genome/human/hg38/ref_gen
+f4=/opt/genome/human/hg38/ref_gen/hg38.fa
+
+if [[ ! -d "$d3" ]]; then
+	mkdir -p /opt/genome/human/hg38/ref_gen
+	if [[ ! -f "$f4" ]]; then
+		cd $script_dir
+		curl -OL "http://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/hg38.fa.gz"
+		mv hg38.fa.gz /opt/genome/human/hg38/ref_gen
+		cd /opt/genome/human/hg38/ref_gen
+		gzip -d hg38.fa.gz
+	fi
+fi
 
 #index building 
 
-hisat2-build hg38.fa hg38
-
+f5=/opt/genome/human/hg38/ref_gen/gh38.1.ht2
+if [[ ! -f "$f5" ]]; then
+	hisat2-build hg38.fa hg38
+fi
 # Installing R packages
 
 R -e 'if (!requireNamespace("BiocManager", quietly = TRUE));install.packages("BiocManager")'
