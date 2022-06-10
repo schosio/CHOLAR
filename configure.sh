@@ -45,6 +45,7 @@ if [[ $? -ne 0 ]]; then
 	make 
 	make install
 	cd ..
+fi
 
 ###########################    ##############################
 
@@ -93,7 +94,7 @@ if [[ $? -ne 0 ]]; then
                             rm Miniconda3-py39_4.11.0-Linux-x86_64.sh
 
 
-                    else
+                 else
                             conda create -q -y -n ngs python=3
 			    conda init bash
 			    source ~/.bashrc
@@ -105,6 +106,7 @@ if [[ $? -ne 0 ]]; then
 
                                   #########################################  
                              "
+		 fi
 fi
 
 
@@ -483,6 +485,7 @@ if [[ $? -ne 0 ]]; then
                         conda config --add channels conda-forge
                         conda config --set channel_priority strict
                         conda update -c conda-forge r-base
+		      fi
 fi
                      
 
