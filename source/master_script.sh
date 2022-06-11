@@ -31,13 +31,16 @@ date
 
 cd $in_dir
 #creating directory for storing fastqc_report of raw fastq files
-mkdir raw_fastqc_report
+d1=$in_dir/raw_fastqc_report
+if [[ ! -d "$d1" ]]; then
+        mkdir raw_fastqc_report
+fi
 
 # run fastqc on all fastq or fastq.gz files
 find $in_dir -type f \( -name "*.fastq.gz" -o -name "*.fastq" \) | parallel -j $threads -v -I% --max-args 1 fastqc -o raw_fastqc_report/
 
 #running multiqc to combine all fastqc reports
-multiqc /raw_fastqc_report
+multiqc $in_dir/raw_fastqc_report
 
 # prossesing the data using trimmomatic v 0.39
 date
@@ -57,28 +60,37 @@ done
 #sorting the output files in different directories
 rm *unpaired.fastq* 
 
-mkdir Paired 
-mv *paired.fastq* Paired/
+d2=$in_dir/Paired
+if [[ ! -d "$d2" ]]; then
+        mkdir Paired 
+        mv *paired.fastq* Paired/        
+fi
 
-mkdir raw_fastq
-mv *.fastq* raw_fastq/
+d3=$in_dir/raw_fastq
+if [[ ! -d "$d3" ]]; then
+        mkdir raw_fastq
+        mv *.fastq* raw_fastq/
+fi
 
-mkdir trim_summary
-mv *SummaryFile.txt trim_summary
+d4=$in_dir/trim_summary
+if [[ ! -d "$d4" ]]; then
+        mkdir trim_summary
+        mv *SummaryFile.txt trim_summary
+fi
+
+
 
 #running fastqc on processed files
-cd Paired/
+cd $in_dir/Paired/
 mkdir processed_fastqc_report
-find . -type f \( -name "*.fastq.gz" -o -name "*.fastq" \) | parallel -j $threads -v -I% --max-args 1 fastqc -o processed_fastqc_report/
+find $in_dir/Paired -type f \( -name "*.fastq.gz" -o -name "*.fastq" \) | parallel -j $threads -v -I% --max-args 1 fastqc -o processed_fastqc_report/
 
-multiqc /processed_fastqc_report
+multiqc $in_dir/Paired/processed_fastqc_report
 
 #moving processed files into main directory
-mv processed_fastqc_report/ ../
+mv $in_dir/Paired/processed_fastqc_report/ $in_dir
 
 #running alignment using HISAT 2
-
-date 
 
 #loop for hisat2
 

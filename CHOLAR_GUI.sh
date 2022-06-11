@@ -15,15 +15,6 @@ arr=($array)
 array2=$(echo $stype | tr "," "\n")
 arr2=($array2)
 
-len=${#arr[@]}
-for (( idx = 0; idx < len; idx++ ));
-do
-        echo "${arr[idx]}       ${arr2[idx]}" >>map.txt
-done
-
-bash /source/name_change.sh
-
-rm map.txt
 
 zenity --info --title="Annotation GTF file" --text="Select Annotation GTF file" --ok-label="OK" 
 [[ $? != 0 ]] && exit 1
@@ -61,6 +52,17 @@ zenity --info --title="Log directory" --text="Select log directory" --ok-label="
 LOGF=$(zenity --file-selection --directory --filename /opt/genome/ --title="***Log directory***"  --text="Select log directory")
 [[ $? != 0 ]] && exit 1
 
+len=${#arr[@]}
+for (( idx = 0; idx < len; idx++ ));
+do
+        echo "${arr[idx]}       ${arr2[idx]}" >>map.txt
+done
+
+bash $R/source/name_change.sh
+
+rm map.txt
+
+
 th=$(nproc --all)
 th=$(($th-2))
 
@@ -72,8 +74,6 @@ echo "
 sample_names = "$snames"
 
 sample_types = "$stype"
-
-BED_file = "$BED"
 
 GTF_file = "$GTF"
 
