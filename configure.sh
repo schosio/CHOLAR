@@ -4,7 +4,7 @@
 linux_dep=( zenity curl parallel python3-pip git libcurl4-openssl-dev libmagick++-dev libmariadbclient-dev libssl-dev)
 
 
-if [[ "$(uname)" -eq "Darwin" ]]; then
+if [[ -n "$( uname | grep Darwin)" ]]; then
             for i in ${linux_dep[@]}; do
                         brew install -y $i
                         done                        
@@ -66,7 +66,7 @@ if [[ $? -ne 0 ]]; then
 
                       #########################################
                 "
-                if [[ "$(uname)" -eq "Darwin" ]]; then
+                if [[ -n "$( uname | grep Darwin)" ]]; then
                             # curl -O https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
                
                 elif [[ -n "$(expr substr $(uname -s) 1 5) | grep Linux" ]]; then
