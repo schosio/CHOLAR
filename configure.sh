@@ -2,15 +2,14 @@
  
 
 linux_dep=( zenity curl parallel python3-pip git libcurl4-openssl-dev libmagick++-dev libmariadbclient-dev libssl-dev)
-os=$(awk -F= '/^NAME/{print $2}' /etc/os-release | tr -d '"')
 
 
-if [ "$(uname)" -eq "Darwin" ]; then
+if [[ "$(uname)" -eq "Darwin" ]]; then
             for i in ${linux_dep[@]}; do
                         brew install -y $i
                         done                        
 
-elif [ "$(expr substr $(uname -s) 1 5)" -eq "Linux" ]; then
+elif [[ -n "$(expr substr $(uname -s) 1 5) | grep Linux" ]]; then
 
             for i in ${linux_dep[@]}; do
                         if [[ -n "$(awk -F= '/^NAME/{print $2}' /etc/os-release | tr -d '"' | grep Ubuntu)" ]]; then
@@ -67,10 +66,10 @@ if [[ $? -ne 0 ]]; then
 
                       #########################################
                 "
-                if [ "$(uname)" -eq "Darwin" ]; then
+                if [[ "$(uname)" -eq "Darwin" ]]; then
                             # curl -O https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
                
-                elif [ -n "$(expr substr $(uname -s) 1 5) | grep Linux"  ]; then
+                elif [[ -n "$(expr substr $(uname -s) 1 5) | grep Linux" ]]; then
                             curl -O https://repo.anaconda.com/miniconda/Miniconda3-py39_4.11.0-Linux-x86_64.sh
                             bash Miniconda3-py39_4.11.0-Linux-x86_64.sh -b 
                             eval "$($HOME/miniconda3/bin/conda shell.bash hook)"
@@ -88,9 +87,9 @@ if [[ $? -ne 0 ]]; then
                             conda create -q -y -n ngs python=3
                             conda activate ngs
                             rm Miniconda3-py39_4.11.0-Linux-x86_64.sh
+		fi
 
-
-                 else
+else
                             conda create -q -y -n ngs python=3
 			    conda init bash
 			    source ~/.bashrc
@@ -102,7 +101,7 @@ if [[ $? -ne 0 ]]; then
 
                                   #########################################  
                              "
-		 fi
+		 
 fi
 
 
