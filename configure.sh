@@ -27,8 +27,8 @@ script_dir=$PWD
 
 ###########################    ##############################
 
-which curl >/dev/null 2>&1 
-if [[ -n "$(which curl | grep curl)" ]]; then 
+ 
+if [[ -z "$(which curl | grep curl)" ]]; then 
 
 	mkdir -p /opt/application
 	cd /opt/application
@@ -44,9 +44,8 @@ fi
 
 ###########################    ##############################
 
-which conda > /dev/null 2>&1
 
-if [[ -z "$(which conda | grep conda)" && (-n "$( uname | grep Darwin)") ]]; then
+if [[ (-z "$(which conda | grep conda)") && (-n "$( uname | grep Darwin)") ]]; then
         echo "
               #########################################
                 Anaconda or Miniconda3 not installed
@@ -61,7 +60,7 @@ if [[ -z "$(which conda | grep conda)" && (-n "$( uname | grep Darwin)") ]]; the
         # curl -O https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
 
         
-elif [[ -z "$(which conda | grep conda)" && (-n "$(expr substr $(uname -s) 1 5) | grep Linux") ]]; then
+elif [[ (-z "$(which conda | grep conda)") && (-n "$(expr substr $(uname -s) 1 5) | grep Linux") ]]; then
         echo "
               #########################################
                 Anaconda or Miniconda3 not installed
