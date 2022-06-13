@@ -18,7 +18,7 @@ authors:
     affiliation: 1
     
 affiliations:
- - name: Lyman Spitzer, Jr. Fellow, Princeton University, USA
+ - name: Department of Systems and Computational Biology, School of Life Sciences, University of Hyderabad, India
    index: 1
    
 date: 13 June 2022
