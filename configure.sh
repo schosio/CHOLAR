@@ -48,7 +48,7 @@ fi
 if [[ (-z "$(which conda | grep conda)") && (-n "$( uname | grep Darwin)") ]]; then
         echo "
               #########################################
-                Anaconda or Miniconda3 not installed
+              System is macOS and conda is not installed
               #########################################  
                          So let's install it
               ######################################### 
@@ -63,7 +63,7 @@ if [[ (-z "$(which conda | grep conda)") && (-n "$( uname | grep Darwin)") ]]; t
 elif [[ (-z "$(which conda | grep conda)") && (-n "$(expr substr $(uname -s) 1 5) | grep Linux") ]]; then
         echo "
               #########################################
-                Anaconda or Miniconda3 not installed
+                System is LINUX and conda is not installed
               #########################################  
                          So let's install it
               ######################################### 
