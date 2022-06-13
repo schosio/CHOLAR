@@ -28,7 +28,7 @@ script_dir=$PWD
 ###########################    ##############################
 
 which curl >/dev/null 2>&1 
-if [[ $? -ne 0 ]]; then 
+if [[ -n "$(which curl | grep curl)" ]]; then 
 
 	mkdir -p /opt/application
 	cd /opt/application
@@ -44,9 +44,9 @@ fi
 
 ###########################    ##############################
 
-which conda || which anaconda > /dev/null 2>&1
+which conda > /dev/null 2>&1
 
-if [[ ($? -ne 0) && (-n "$( uname | grep Darwin)") ]]; then
+if [[ -z "$(which conda | grep conda)" && (-n "$( uname | grep Darwin)") ]]; then
         echo "
               #########################################
                 Anaconda or Miniconda3 not installed
@@ -61,7 +61,18 @@ if [[ ($? -ne 0) && (-n "$( uname | grep Darwin)") ]]; then
         # curl -O https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
 
         
-elif [[ ($? -ne 0) && (-n "$(expr substr $(uname -s) 1 5) | grep Linux") ]]; then
+elif [[ -z "$(which conda | grep conda)" && (-n "$(expr substr $(uname -s) 1 5) | grep Linux") ]]; then
+        echo "
+              #########################################
+                Anaconda or Miniconda3 not installed
+              #########################################  
+                         So let's install it
+              ######################################### 
+                     Installing Miniconda now !!
+              #########################################
+        
+        For further reading visit https://docs.conda.io/projects/conda/en/latest/user-guide/install/linux.html
+              #########################################"
         curl -O https://repo.anaconda.com/miniconda/Miniconda3-py39_4.11.0-Linux-x86_64.sh
         bash Miniconda3-py39_4.11.0-Linux-x86_64.sh -b 
         eval "$($HOME/miniconda3/bin/conda shell.bash hook)"
@@ -105,7 +116,7 @@ fi
 
 which fastqc >/dev/null 2>&1
 
-if [[ $? -ne 0 ]]; then
+if [[ -z "$(which fastqc | grep fastqc)" ]]; then
         echo "
               #########################################
                        fastqc not installed
@@ -138,8 +149,8 @@ else
               "
 fi
 
-which multiqc >/dev/null 2>&1
-if [[ $? -ne 0 ]]; then
+
+if [[ -z "$(which multiqc | grep multiqc)" ]]; then
         echo "
               #########################################
                        multiqc not installed
@@ -180,7 +191,7 @@ fi
 
 which hisat2 >/dev/null 2>&1
 
-if [[ $? -ne 0 ]]; then
+if [[ -z "$(which hisat2 | grep hisat2)" ]]; then
          echo "
               #########################################
                         hisat2 not installed
@@ -218,9 +229,8 @@ fi
 
 
 
-which samtools >/dev/null 2>&1
 
-if [[ $? -ne 0 ]]; then
+if [[ -z "$(which samtools | grep samtools)" ]]; then
          echo "
               #########################################
                       samtools not installed
@@ -251,9 +261,8 @@ else
               "
 fi
 
-which stringtie >/dev/null 2>&1
 
-if [[ $? -ne 0 ]]; then
+if [[ -z "$(which stringtie | grep stringtie)" ]]; then
         echo "
               #########################################
                       stringtie not installed
@@ -285,7 +294,7 @@ fi
 
 which gffcompare > /dev/null 2>&1
 
-if [[ $? -ne 0 ]]; then
+if [[ -z "$(which gffcompare | grep gffcompare)" ]]; then
         echo "
               #########################################
                       gffcompare not installed
@@ -318,7 +327,7 @@ fi
 
 which gffread >/dev/null 2>&1
 
-if [[ $? -ne 0 ]]; then
+if [[ -z "$(which gffread | grep gffread)" ]]; then
         echo "
               #########################################
                       gffread not installed
@@ -348,9 +357,8 @@ else
               "
 fi
 
-which htseq-count >/dev/null 2>&1
 
-if [[ $? -ne 0 ]]; then
+if [[ -z "$(which htseq-count | grep htseq-count)" ]]; then
         echo "
               #########################################
                          htseq not installed
@@ -383,7 +391,7 @@ fi
 which R > /dev/null 2>&1
 
 
-if [[ $? -ne 0 ]]; then
+if [[ -z "$(which R | grep R)" ]]; then
         echo "
               #########################################
                          r not installed
@@ -411,7 +419,7 @@ else
       	
                 
                 
-          echo "
+        echo "
         ##########################################
         
                r is already installed      
@@ -423,6 +431,13 @@ else
           conda config --add channels conda-forge
           conda config --set channel_priority strict
           conda update -c conda-forge r-base
+          echo "
+                ##########################################
+                
+                       Updated R version to current one      
+                          
+                ##########################################
+                "
 	fi
 fi                     
 
