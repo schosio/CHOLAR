@@ -80,7 +80,7 @@ elif [[ ($? -ne 0) && (-n "$(expr substr $(uname -s) 1 5) | grep Linux") ]]; the
               ##########################################
               "
 
-elif [[ -n "$(conda env list | grep ngs)"]]; then
+elif [[ -n "$(conda env list | grep ngs)" ]]; then
         conda activate ngs
         echo "
               ##########################################
