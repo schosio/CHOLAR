@@ -66,16 +66,29 @@ elif [[ ($? -ne 0) && (-n "$(expr substr $(uname -s) 1 5) | grep Linux") ]]; the
         bash Miniconda3-py39_4.11.0-Linux-x86_64.sh -b 
         eval "$($HOME/miniconda3/bin/conda shell.bash hook)"
         source ~/.bashrc
-        echo "
-              ##########################################
-                        Miniconda is Installed      
-              ##########################################
-              "
+        
         ## Creating and activating conda environment named ngs
         conda create -q -y -n ngs python=3
         conda activate ngs
         rm Miniconda3-py39_4.11.0-Linux-x86_64.sh
+        echo "
+              ##########################################
+                        Miniconda is Installed 
+                         on your Linux system  
+                      NGS environment is created
+                            and activated   
+              ##########################################
+              "
 
+elif [[ -n "$(conda env list | grep ngs)"]]; then
+        conda activate ngs
+        echo "
+              ##########################################
+                    Miniconda is already Installed
+                      NGS environment is present
+                          NGS is Activated      
+              ##########################################
+              "
 else
         conda create -q -y -n ngs python=3
 	conda init bash
@@ -83,7 +96,7 @@ else
         conda activate ngs
         echo "
               #########################################
-                  Anaconda or Miniconda3 installed
+                    NGS is created and activated
               #########################################  
          "
 		 
@@ -406,7 +419,7 @@ else
         ##########################################
         "
         r_ver=$(R --version | grep "R version" | cut -d " " -f3 | cut -d "." -f1)
-        if [[ $r_ver<=3 ]]; then
+        if [[ $r_ver -lt 3 ]]; then
           conda config --add channels conda-forge
           conda config --set channel_priority strict
           conda update -c conda-forge r-base
@@ -415,7 +428,7 @@ fi
 
 # download and place Trimmomatic
 d1=/opt/software
-f1=//opt/software/Trimmomatic-0.39.zip
+f1=/opt/software/Trimmomatic-0.39.zip
 if [[ ! -d "$d1" ]]; then
 	mkdir -p /opt/software
 	if [[ ! -f "$f1" ]]; then

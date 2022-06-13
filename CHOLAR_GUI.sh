@@ -81,7 +81,7 @@ reference_genome = "$REF"
 
 script_directory = "$R"
 
-output_directory = "$OUT"
+input_directory = "$IN"
 
 log_directory = "$LOGF"
 
