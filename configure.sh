@@ -411,7 +411,7 @@ if [[ -z "$(which R | grep R)" ]]; then
                         
               ##########################################
               "
-else
+elif [[ (-n "$(which R | grep R)") && ( $(R --version | grep "R version" | cut -d " " -f3 | cut -d "." -f1) -le 3 ) ]]; then
       	
                 
                 
@@ -422,19 +422,18 @@ else
                   
         ##########################################
         "
-        r_ver=$(R --version | grep "R version" | cut -d " " -f3 | cut -d "." -f1)
-        if [[ $r_ver -lt 3 ]]; then
-          conda config --add channels conda-forge
-          conda config --set channel_priority strict
-          conda update -c conda-forge r-base
-          echo "
+        
+        conda config --add channels conda-forge
+        conda config --set channel_priority strict
+        conda update -c conda-forge r-base
+        echo "
                 ##########################################
                 
                        Updated R version to current one      
                           
                 ##########################################
                 "
-	fi
+	
 fi                     
 
 # download and place Trimmomatic
