@@ -13,8 +13,12 @@ elif [[ -n "$(expr substr $(uname -s) 1 5) | grep Linux" ]]; then
 
         for i in ${linux_dep[@]}; do
                 if [[ -n "$(awk -F= '/^NAME/{print $2}' /etc/os-release | tr -d '"' | grep Ubuntu)" ]]; then
+                        sudo apt-get update
+                        sudo apt-get upgrade
                         sudo apt-get install -y $i
                 elif [[ -n "$(awk -F= '/^NAME/{print $2}' /etc/os-release | tr -d '"' | grep CentOS)" ]]; then
+                        sudo yum update
+                        sudo yum upgrade
                         sudo yum install -y $i
                 fi
                 done
