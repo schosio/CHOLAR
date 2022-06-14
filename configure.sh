@@ -66,9 +66,7 @@ if [[ (-z "$(which conda | grep conda)") && (-n "$( uname | grep Darwin)") ]]; t
         eval "$($HOME/miniconda3/bin/conda shell.zsh hook)"
         source $HOME/miniconda3/bin/activate
 
-        ## Creating and activating conda environment named ngs
-        conda create -q -y -n ngs python=3
-        conda activate ngs
+        ## Creating and activating conda environment named base
         rm Miniconda3-latest-MacOSX-x86_64.sh -b
         echo "
               ##########################################
@@ -97,8 +95,6 @@ elif [[ (-z "$(which conda | grep conda)") && (-n "$(expr substr $(uname -s) 1 5
         source ~/.bashrc
         
         ## Creating and activating conda environment named ngs
-        conda create -q -y -n ngs python=3
-        conda activate ngs
         rm Miniconda3-py39_4.11.0-Linux-x86_64.sh
         echo "
               ##########################################
@@ -108,27 +104,6 @@ elif [[ (-z "$(which conda | grep conda)") && (-n "$(expr substr $(uname -s) 1 5
                             and activated   
               ##########################################
               "
-
-elif [[ -n "$(conda env list | grep ngs)" ]]; then
-        source ~/anaconda3/etc/profile.d/conda.sh
-        conda activate ngs
-        echo "
-              ##########################################
-                    Miniconda is already Installed
-                      NGS environment is present
-                          NGS is Activated      
-              ##########################################
-              "
-elif [[ (-n "$(which conda | grep conda)") && (-z "$(conda env list | grep ngs)") ]]; then
-        conda create -q -y -n ngs python=3
-	conda init bash
-	source ~/.bashrc
-        conda activate ngs
-        echo "
-              #########################################
-                    NGS is created and activated
-              #########################################  
-         "
 		 
 fi
 
