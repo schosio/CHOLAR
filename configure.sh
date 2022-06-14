@@ -65,6 +65,8 @@ if [[ (-z "$(which conda | grep conda)") && (-n "$( uname | grep Darwin)") ]]; t
         sudo bash Miniconda3-latest-MacOSX-x86_64.sh -b
         eval "$($HOME/miniconda3/bin/conda shell.zsh hook)"
         source $HOME/miniconda3/bin/activate
+        sudo mkdir -p $HOME/miniconda3/c_pkgs
+        sudo conda config --add pkgs_dirs c_pkgs
 
         ## Creating and activating conda environment named base
         rm Miniconda3-latest-MacOSX-x86_64.sh -b
@@ -104,7 +106,10 @@ elif [[ (-z "$(which conda | grep conda)") && (-n "$(expr substr $(uname -s) 1 5
                             and activated   
               ##########################################
               "
-		 
+elif [[ (-n "$(which conda | grep conda)") && (-n "$( uname | grep Darwin)") ]]; then
+        sudo mkdir -p $HOME/miniconda3/c_pkgs
+        sudo conda config --add pkgs_dirs c_pkgs
+
 fi
 
 
