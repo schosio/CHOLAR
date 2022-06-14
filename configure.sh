@@ -6,16 +6,16 @@ linux_dep=( zenity curl parallel python3-pip git libcurl4-openssl-dev libmagick+
 
 if [[ -n "$( uname | grep Darwin)" ]]; then
         for i in ${linux_dep[@]}; do
-                brew install -y $i
+                sudo brew install -y $i
                 done                        
 
 elif [[ -n "$(expr substr $(uname -s) 1 5) | grep Linux" ]]; then
 
         for i in ${linux_dep[@]}; do
                 if [[ -n "$(awk -F= '/^NAME/{print $2}' /etc/os-release | tr -d '"' | grep Ubuntu)" ]]; then
-                        apt-get install -y $i
+                        sudo apt-get install -y $i
                 elif [[ -n "$(awk -F= '/^NAME/{print $2}' /etc/os-release | tr -d '"' | grep CentOS)" ]]; then
-                        yum install -y $i
+                        sudo yum install -y $i
                 fi
                 done
  fi
@@ -30,15 +30,15 @@ script_dir=$PWD
  
 if [[ -z "$(which curl | grep curl)" ]]; then 
 
-	mkdir -p /opt/application
+	sudo mkdir -p /opt/application
 	cd /opt/application
 	wget -c https://github.com/curl/curl/releases/download/curl-7_55_0/curl-7.55.0.tar.gz 
 	tar -xvzf curl-7.55.0.tar.gz
 	rm curl-7.55.0.tar.gz
 	cd curl-7.55.0/  
-	./configure
-	make 
-	make install
+	sudo ./configure
+	sudo make 
+	sudo make install
 	cd ..
 fi
 
@@ -73,7 +73,7 @@ elif [[ (-z "$(which conda | grep conda)") && (-n "$(expr substr $(uname -s) 1 5
         For further reading visit https://docs.conda.io/projects/conda/en/latest/user-guide/install/linux.html
               #########################################"
         curl -O https://repo.anaconda.com/miniconda/Miniconda3-py39_4.11.0-Linux-x86_64.sh
-        bash Miniconda3-py39_4.11.0-Linux-x86_64.sh -b 
+        sudo bash Miniconda3-py39_4.11.0-Linux-x86_64.sh -b 
         eval "$($HOME/miniconda3/bin/conda shell.bash hook)"
         source ~/.bashrc
         
@@ -91,6 +91,8 @@ elif [[ (-z "$(which conda | grep conda)") && (-n "$(expr substr $(uname -s) 1 5
               "
 
 elif [[ -n "$(conda env list | grep ngs)" ]]; then
+        conda init bash
+	source ~/.bashrc
         conda activate ngs
         echo "
               ##########################################
@@ -99,7 +101,7 @@ elif [[ -n "$(conda env list | grep ngs)" ]]; then
                           NGS is Activated      
               ##########################################
               "
-else
+elif [[ (-n "$(which conda | grep conda)") && (-z "$(conda env list | grep ngs)") ]]; then
         conda create -q -y -n ngs python=3
 	conda init bash
 	source ~/.bashrc
@@ -113,7 +115,6 @@ else
 fi
 
 
-which fastqc >/dev/null 2>&1
 
 if [[ -z "$(which fastqc | grep fastqc)" ]]; then
         echo "
@@ -185,10 +186,6 @@ else
 fi
 
 
-
-
-
-which hisat2 >/dev/null 2>&1
 
 if [[ -z "$(which hisat2 | grep hisat2)" ]]; then
          echo "
@@ -291,7 +288,6 @@ else
               "
 fi
 
-which gffcompare > /dev/null 2>&1
 
 if [[ -z "$(which gffcompare | grep gffcompare)" ]]; then
         echo "
@@ -324,7 +320,6 @@ else
               "
 fi
 
-which gffread >/dev/null 2>&1
 
 if [[ -z "$(which gffread | grep gffread)" ]]; then
         echo "
@@ -387,7 +382,6 @@ else
               "
 fi
 
-which R > /dev/null 2>&1
 
 
 if [[ -z "$(which R | grep R)" ]]; then
@@ -444,12 +438,12 @@ fi
 d1=/opt/software
 f1=/opt/software/Trimmomatic-0.39.zip
 if [[ ! -d "$d1" ]]; then
-	mkdir -p /opt/software
+	sudo mkdir -p /opt/software
 	if [[ ! -f "$f1" ]]; then
 		curl -O http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/Trimmomatic-0.39.zip
-		mv Trimmomatic-0.39.zip $d1
+		sudo mv Trimmomatic-0.39.zip $d1
 		cd $d1
-		unzip Trimmomatic-0.39.zip
+		sudo unzip Trimmomatic-0.39.zip
 	
 	fi
 fi
@@ -473,12 +467,12 @@ pip3 install CPAT
 d2=/opt/genome/human/hg38/annotation
 f2=/opt/genome/human/hg38/annotation/gencode.v40.chr_patch_hapl_scaff.annotation.gtf
 if [[ ! -d "$d2" ]]; then
-	mkdir -p /opt/genome/human/hg38/annotation
+	sudo mkdir -p /opt/genome/human/hg38/annotation
 	if [[ ! -f "$f2" ]]; then
 		curl -OL "https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_40/gencode.v40.chr_patch_hapl_scaff.annotation.gtf.gz"
-		mv *.annotation.gtf.gz /opt/genome/human/hg38/annotation
+		sudo mv *.annotation.gtf.gz /opt/genome/human/hg38/annotation
 		cd /opt/genome/human/hg38/annotation
-		gzip -d gencode.v40.chr_patch_hapl_scaff.annotation.gtf.gz
+		sudo gzip -d gencode.v40.chr_patch_hapl_scaff.annotation.gtf.gz
 		
 	fi
 fi
@@ -486,7 +480,7 @@ fi
 # create splice site file
 f3=/opt/genome/human/hg38/annotation/gencode.v40.splicesite.annotation.ss
 if [[ ! -f "$f3" ]]; then
-	hisat2_extract_splice_sites.py gencode.v40.chr_patch_hapl_scaff.annotation.gtf > gencode.v40.splicesite.annotation.ss
+	hisat2_extract_splice_sites.py /opt/genome/human/hg38/annotation/gencode.v40.chr_patch_hapl_scaff.annotation.gtf > gencode.v40.splicesite.annotation.ss
 fi
 # Downloading reference genome
 
@@ -494,13 +488,13 @@ d3=/opt/genome/human/hg38/ref_gen
 f4=/opt/genome/human/hg38/ref_gen/hg38.fa
 
 if [[ ! -d "$d3" ]]; then
-	mkdir -p /opt/genome/human/hg38/ref_gen
+	sudo mkdir -p /opt/genome/human/hg38/ref_gen
 	if [[ ! -f "$f4" ]]; then
 		cd $script_dir
 		curl -OL "http://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/hg38.fa.gz"
-		mv hg38.fa.gz /opt/genome/human/hg38/ref_gen
+		sudo mv hg38.fa.gz /opt/genome/human/hg38/ref_gen
 		cd /opt/genome/human/hg38/ref_gen
-		gzip -d hg38.fa.gz
+		sudo gzip -d hg38.fa.gz
 	fi
 fi
 
