@@ -13,12 +13,12 @@ elif [[ -n "$(expr substr $(uname -s) 1 5) | grep Linux" ]]; then
 
         for i in ${linux_dep[@]}; do
                 if [[ -n "$(awk -F= '/^NAME/{print $2}' /etc/os-release | tr -d '"' | grep Ubuntu)" ]]; then
-                        sudo apt-get update
-                        sudo apt-get upgrade
+                        sudo apt-get update -y
+                        sudo apt-get upgrade -y
                         sudo apt-get install -y $i
                 elif [[ -n "$(awk -F= '/^NAME/{print $2}' /etc/os-release | tr -d '"' | grep CentOS)" ]]; then
-                        sudo yum update
-                        sudo yum upgrade
+                        sudo yum update -y
+                        sudo yum upgrade -y
                         sudo yum install -y $i
                 fi
                 done
@@ -95,8 +95,7 @@ elif [[ (-z "$(which conda | grep conda)") && (-n "$(expr substr $(uname -s) 1 5
               "
 
 elif [[ -n "$(conda env list | grep ngs)" ]]; then
-        conda init bash
-	source ~/.bashrc
+        source ~/anaconda3/etc/profile.d/conda.sh
         conda activate ngs
         echo "
               ##########################################
@@ -499,6 +498,14 @@ if [[ ! -d "$d3" ]]; then
 		sudo mv hg38.fa.gz /opt/genome/human/hg38/ref_gen
 		cd /opt/genome/human/hg38/ref_gen
 		sudo gzip -d hg38.fa.gz
+        elif [[ -f "$f4.gz" ]]; then
+                sudo rm *.gz
+                cd $script_dir
+		curl -OL "http://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/hg38.fa.gz"
+		sudo mv hg38.fa.gz /opt/genome/human/hg38/ref_gen
+		cd /opt/genome/human/hg38/ref_gen
+		sudo gzip -d hg38.fa.gz
+
 	fi
 fi
 
