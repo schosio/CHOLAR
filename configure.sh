@@ -63,8 +63,8 @@ if [[ (-z "$(which conda | grep conda)") && (-n "$( uname | grep Darwin)") ]]; t
               #########################################"
         curl -O https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
         sudo bash Miniconda3-latest-MacOSX-x86_64.sh -b
-        eval "$($HOME/miniconda3/bin/conda shell.bash hook)"
-        source <path to conda>/bin/activate
+        eval "$($HOME/miniconda3/bin/conda shell.zsh hook)"
+        source $HOME/miniconda3/bin/activate
 
         ## Creating and activating conda environment named ngs
         conda create -q -y -n ngs python=3
