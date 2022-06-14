@@ -30,7 +30,7 @@ bibliography: paper.bib
 # Summary
 
 RNA-sequencing has found numerous implementations in research, from distinguishing immune cell subtypes 
-to differential gene expression between cancer versus normal tissue types (Villani et al. 2017, Bao et al. 2021).
+to differential gene expression between cancer versus normal tissue types [@Villani2017][@Bao2021].
 Another application of RNA-seq is to identify novel transcripts involved in various biological processes
 (Gupta, Kleinjans and Caiment 2021). The most relevant is context and cell-type-specific non-coding RNAs,
 such as long non-coding RNAs (lncRNAs), which have become a case-point for most transcriptomic studies proving
