@@ -411,7 +411,32 @@ if [[ -z "$(which R | grep R)" ]]; then
                         
               ##########################################
               "
-elif [[ (-n "$(which R | grep R)") && ( $(R --version | grep "R version" | cut -d " " -f3 | cut -d "." -f1) -le 3 ) ]]; then
+elif [[ -z "$(which R | grep envs)" ]]; then
+        echo "
+              #########################################
+                         r not installed
+              #########################################  
+                         So let's install it
+              #########################################
+                       Installing r now !!
+              #########################################
+              "
+             
+             
+        conda config --add channels conda-forge
+        conda config --set channel_priority strict
+        conda install -q -y -c conda-forge r-base
+        
+             
+        echo "
+              ##########################################
+              
+                          Installed r      
+                        
+              ##########################################
+              "
+
+elif [[ (-z "$(which R | grep envs)") && ( $(R --version | grep "R version" | cut -d " " -f3 | cut -d "." -f1) -le 3 ) ]]; then
       	
                 
                 
