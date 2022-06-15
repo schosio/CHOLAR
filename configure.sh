@@ -6,7 +6,7 @@ linux_dep=( zenity curl parallel python3-pip git libcurl4-openssl-dev libmagick+
 
 if [[ -n "$( uname | grep Darwin)" ]]; then
         for i in ${linux_dep[@]}; do
-                sudo brew install -y $i
+                brew install -y $i
                 done                        
 
 elif [[ -n "$(expr substr $(uname -s) 1 5) | grep Linux" ]]; then
