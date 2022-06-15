@@ -79,7 +79,7 @@ if [[ (-z "$(which conda | grep conda)") && (-n "$( uname | grep Darwin)") ]]; t
               ##########################################
               "
         
-elif [[ (-z "$(which conda | grep conda)") && (-n "$(expr substr $(uname -s) 1 5) | grep Linux") ]]; then
+elif [[ (-z "$(which conda | grep conda)") && (-n "$(expr substr $(uname -s) 1 5 | grep Linux)") ]]; then
         echo "
               #########################################
                 System is LINUX and conda is not installed
@@ -109,6 +109,28 @@ elif [[ (-z "$(which conda | grep conda)") && (-n "$(expr substr $(uname -s) 1 5
 elif [[ (-n "$(which conda | grep conda)") && (-n "$( uname | grep Darwin)") ]]; then
         sudo mkdir -p $HOME/miniconda3/c_pkgs
         sudo conda config --add pkgs_dirs c_pkgs
+
+elif [[ (-n "$(which conda | grep conda)") && (-n "$(expr substr $(uname -s) 1 5 | grep Linux)") && (-n "$(conda env list | grep ngs)") ]]; then
+        source ~/anaconda3/etc/profile.d/conda.sh
+        conda activate ngs
+        echo "
+              ##########################################
+                    Miniconda is already Installed
+                      NGS environment is present
+                          NGS is Activated      
+              ##########################################
+              "
+elif [[ (-n "$(which conda | grep conda)") && (-z "$(conda env list | grep ngs)") &&  (-n "$(expr substr $(uname -s) 1 5 | grep Linux)") ]]; then
+        conda create -q -y -n ngs python=3
+	conda init bash
+	source ~/.bashrc
+        source ~/anaconda3/etc/profile.d/conda.sh
+        conda activate ngs
+        echo "
+              #########################################
+                    NGS is created and activated
+              #########################################  
+         "
 
 fi
 
