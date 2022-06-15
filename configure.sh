@@ -135,7 +135,7 @@ elif [[ (-n "$(which conda | grep conda)") && (-n "$( uname | grep Darwin)") ]];
         sudo conda config --add pkgs_dirs c_pkgs
 
 elif [[ (-n "$(which conda | grep conda)") && (-n "$(expr substr $(uname -s) 1 5 | grep Linux)") && (-n "$(conda env list | grep ngs)") ]]; then
-        source ~/anaconda3/etc/profile.d/conda.sh || source ~/miniconda3/etc/profile.d/conda.sh
+        source ~/miniconda3/etc/profile.d/conda.sh
         conda activate ngs
         echo "
               ##########################################
