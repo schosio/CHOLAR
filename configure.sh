@@ -6,17 +6,41 @@ linux_dep=( zenity curl parallel python3-pip git libcurl4-openssl-dev libmagick+
 
 if [[ -n "$( uname | grep Darwin)" ]]; then
         for i in ${linux_dep[@]}; do
+                echo "
+              #########################################
+                           System is macOS 
+              #########################################  
+                         Checking dependencies
+              ######################################### 
+                     Installing the missing ones !!
+              #########################################"
                 brew install -y $i
                 done                        
 
-elif [[ -n "$(expr substr $(uname -s) 1 5) | grep Linux" ]]; then
+elif [[ -n "$(expr substr $(uname -s) 1 5 | grep Linux)" ]]; then
 
         for i in ${linux_dep[@]}; do
                 if [[ -n "$(awk -F= '/^NAME/{print $2}' /etc/os-release | tr -d '"' | grep Ubuntu)" ]]; then
+                        echo "
+              #########################################
+                           System is Ubuntu
+              #########################################  
+                         Checking dependencies
+              ######################################### 
+                     Installing the missing ones !!
+              #########################################"
                         sudo apt-get update -y
                         sudo apt-get upgrade -y
                         sudo apt-get install -y $i
                 elif [[ -n "$(awk -F= '/^NAME/{print $2}' /etc/os-release | tr -d '"' | grep CentOS)" ]]; then
+                        echo "
+              #########################################
+                           System is CentOS
+              #########################################  
+                         Checking dependencies
+              ######################################### 
+                     Installing the missing ones !!
+              #########################################"
                         sudo yum update -y
                         sudo yum upgrade -y
                         sudo yum install -y $i
@@ -407,11 +431,11 @@ fi
 if [[ -z "$(which R | grep R)" ]]; then
         echo "
               #########################################
-                         r not installed
+                   r not installed on the system
               #########################################  
-                         So let's install it
+                        So let's install it
               #########################################
-                       Installing r now !!
+                         Installing r now !!
               #########################################
               "
              
@@ -424,14 +448,14 @@ if [[ -z "$(which R | grep R)" ]]; then
         echo "
               ##########################################
               
-                          Installed r      
+                           Installed r      
                         
               ##########################################
               "
 elif [[ -z "$(which R | grep envs)" ]]; then
         echo "
               #########################################
-                         r not installed
+                   r not installed on conda env
               #########################################  
                          So let's install it
               #########################################
@@ -460,8 +484,12 @@ elif [[ (-z "$(which R | grep envs)") && ( $(R --version | grep "R version" | cu
         echo "
         ##########################################
         
-               r is already installed      
+         r is already installed but version is <4      
                   
+        ##########################################
+        
+                     So let's update it
+        
         ##########################################
         "
         
@@ -490,6 +518,12 @@ if [[ ! -d "$d1" ]]; then
 		unzip Trimmomatic-0.39.zip
 	
 	fi
+elif [[ (-d "$d1") && (! -f "$f1") ]]; then
+        curl -O http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/Trimmomatic-0.39.zip
+	mv Trimmomatic-0.39.zip $d1
+	cd $d1
+	unzip Trimmomatic-0.39.zip
+
 fi
 
 # install CPAT
