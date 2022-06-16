@@ -8,7 +8,7 @@ https://github.com/schosio/CHOLAR/archive/refs/tags/v0.1.zip
 
 Tar file
 
-https://github.com/schosio/CHOLAR/releases/download/v0.1/CHOLAR-Src-0.1.tar.gz
+https://github.com/schosio/CHOLAR/archive/refs/tags/v0.1.tar.gz
 
 ## INSTRUCTIONS TO RUN CHOLAR
 
