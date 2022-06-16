@@ -26,40 +26,6 @@ This will generate
 
 
 
-
-
-
-
-
----
-title: 'CHOLAR: Characterization of LncRNA from raw reads'
-tags:
-  - RNA-seq
-  - automated
-  - pipeline
-  - graphical user interface
-  - lncRNA
-
-authors:
-  - name: Haneesh Jindal 
-    orcid: 0000-0003-0632-7330
-    affiliation: 1 
-  - name: Anubha Dey
-    affiliation: 1
-  - name: Manjari Kiran
-    orcid: 0000-0003-0153-7072
-    corresponding: true
-    affiliation: 1
-    
-affiliations:
- - name: Department of Systems and Computational Biology, School of Life Sciences, University of Hyderabad, India
-   index: 1
-   
-date: 13 June 2022
-bibliography: paper.bib
-
----
-
 # Summary
 
 RNA-sequencing has found numerous implementations in research, from distinguishing immune cell subtypes 

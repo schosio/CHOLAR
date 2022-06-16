@@ -25,17 +25,20 @@ affiliations:
    
 date: 13 June 2022
 bibliography: paper.bib
+output: 
+  paper:
+    citation_package: natbib
 
 ---
 
 # Summary
 
 RNA-sequencing has found numerous implementations in research, from distinguishing immune cell subtypes 
-to differential gene expression between cancer versus normal tissue types [@Villani2017@Bao2021].
+to differential gene expression between cancer versus normal tissue types [@Villani2017;@Bao2021].
 Another application of RNA-seq is to identify novel transcripts involved in various biological processes
 [@Gupta2021]. The most relevant is context and cell-type-specific non-coding RNAs,
 such as long non-coding RNAs (lncRNAs), which have become a case-point for most transcriptomic studies proving
-their role in regulating gene expression, post-transcriptional regulation, and epigenetic regulation [@Engreitz2016@Zhu2019].
+their role in regulating gene expression, post-transcriptional regulation, and epigenetic regulation [@Engreitz2016;@Zhu2019].
 It is becoming crucial to check the relative expression of lncRNAs in transcriptome-wide studies. Our group
 has developed an automated lncRNA expression pipeline. The only requirement from the user-side is raw data in
 FASTQ format. The user will get a list of known and novel lncRNAs, and differential
