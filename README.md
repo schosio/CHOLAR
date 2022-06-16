@@ -2,13 +2,9 @@
 
 Download from official link: 
 
-Zip file
+Zip file   https://github.com/schosio/CHOLAR/releases/download/v0.1/CHOLAR-Src-0.1.zip
 
-https://github.com/schosio/CHOLAR/archive/refs/tags/v0.1.zip
-
-Tar file
-
-https://github.com/schosio/CHOLAR/archive/refs/tags/v0.1.tar.gz
+Tar file   https://github.com/schosio/CHOLAR/releases/download/v0.1/CHOLAR-Src-0.1.tar.gz
 
 ## INSTRUCTIONS TO RUN CHOLAR
 
