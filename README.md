@@ -1,4 +1,10 @@
-# INSTRUCTIONS TO RUN CHOLAR
+## INSTRUCTIONS TO RUN CHOLAR
+
+For macOS, pre-requisite 
+
+`brew` For information on brew visit https://brew.sh/
+
+
 
 Execute the configure file on LINUX/UNIX system using terminal:
 

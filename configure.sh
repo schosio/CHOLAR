@@ -5,6 +5,7 @@ linux_dep=( zenity curl parallel python3-pip git libcurl4-openssl-dev libmagick+
 
 
 if [[ -n "$( uname | grep Darwin)" ]]; then
+        
         for i in ${linux_dep[@]}; do
                 echo "
               #########################################
@@ -74,6 +75,7 @@ fi
 
 
 if [[ (-z "$(which conda | grep conda)") && (-n "$( uname | grep Darwin)") ]]; then
+        
         echo "
               #########################################
               System is macOS and conda is not installed
@@ -104,6 +106,7 @@ if [[ (-z "$(which conda | grep conda)") && (-n "$( uname | grep Darwin)") ]]; t
               "
         
 elif [[ (-z "$(which conda | grep conda)") && (-n "$(expr substr $(uname -s) 1 5 | grep Linux)") ]]; then
+        
         echo "
               #########################################
                 System is LINUX and conda is not installed
@@ -131,10 +134,14 @@ elif [[ (-z "$(which conda | grep conda)") && (-n "$(expr substr $(uname -s) 1 5
               ##########################################
               "
 elif [[ (-n "$(which conda | grep conda)") && (-n "$( uname | grep Darwin)") ]]; then
+        
         sudo mkdir -p $HOME/miniconda3/c_pkgs
         sudo conda config --add pkgs_dirs c_pkgs
 
 elif [[ (-n "$(which conda | grep conda)") && (-n "$(expr substr $(uname -s) 1 5 | grep Linux)") && (-n "$(conda env list | grep ngs)") ]]; then
+        
+        if [[ -d ~/miniconda3 ]]; then
+       
         source ~/miniconda3/etc/profile.d/conda.sh
         conda activate ngs
         echo "
@@ -144,18 +151,44 @@ elif [[ (-n "$(which conda | grep conda)") && (-n "$(expr substr $(uname -s) 1 5
                           NGS is Activated      
               ##########################################
               "
+        elif [[ -d ~/anaconda3 ]]; then
+       
+        source ~/anaconda3/etc/profile.d/conda.sh
+        conda activate ngs
+        echo "
+              ##########################################
+                    Miniconda is already Installed
+                      NGS environment is present
+                          NGS is Activated      
+              ##########################################
+              "
+        fi
+
 elif [[ (-n "$(which conda | grep conda)") && (-z "$(conda env list | grep ngs)") &&  (-n "$(expr substr $(uname -s) 1 5 | grep Linux)") ]]; then
+        
         conda create -q -y -n ngs python=3
 	conda init bash
 	source ~/.bashrc
-        source ~/anaconda3/etc/profile.d/conda.sh || source ~/miniconda3/etc/profile.d/conda.sh
+        
+        if [[ -d ~/miniconda3 ]]; then
+       
+        source ~/miniconda3/etc/profile.d/conda.sh
         conda activate ngs
         echo "
               #########################################
                     NGS is created and activated
               #########################################  
-         "
-
+        "
+        elif [[ -d ~/anaconda3 ]]; then
+       
+        source ~/miniconda3/etc/profile.d/conda.sh
+        conda activate ngs
+        echo "
+              #########################################
+                    NGS is created and activated
+              #########################################  
+        "
+        fi
 fi
 
 
@@ -591,8 +624,6 @@ if [[ ! -f "$f5" ]]; then
 	hisat2-build hg38.fa hg38
 fi
 # Installing R packages
-
-R -e 'if (!requireNamespace("BiocManager", quietly = TRUE));install.packages("BiocManager")'
 
 R -e 'install.packages(c("BiocManager", "ggrepel", "dplyr", "ggplot", "data.table"), repos="https://cloud.r-project.org")'
 
