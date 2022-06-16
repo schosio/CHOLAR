@@ -63,7 +63,7 @@ publication-quality plots such as MA plot, Volcano plot and heatmap.
 
 The `CHOLAR` pipeline is implemented in bash and R, where it first reads the input FASTQ files(s) to check the
 quality of reads using `FastQC` [@Fiancette2021]. Bad quality ( < 28 ) reads and adaptors are removed using
-`Trimmomatic` [@Bolger2024]. `HISAT2` performs the mapping of reads on the human reference genome
+`Trimmomatic` [@Bolger2014]. `HISAT2` performs the mapping of reads on the human reference genome
 (hg38) [@Zhang2021]. The SAM files generated from `HISAT2` are converted to BAM, and PCR duplicates are removed
 utilising the `samtools` toolkit [@Danecek2021]. 
 The transcript assembly is done using Stringtie, and the resulting GTF files are merged using the merge utility of
