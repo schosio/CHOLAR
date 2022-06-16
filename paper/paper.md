@@ -54,7 +54,7 @@ Installing multiple CLI tools, handling various file formats, and plotting graph
 R programming language. Moreover, no tool identifies novel lncRNAs from raw transcriptomic data to the best of our
 knowledge. LncRNA identification tools such as `CPAT` [@Wang2013] (and other tools) take either transcript
 sequence (FASTA) or transcript coordinate (BED, GTF) as input and provide a list of predicted lncRNAs.
-To address these issues, we developed CHOLAR which is a tool for characterization of LncRNA from raw reads .
+To address these issues, we developed `CHOLAR` which is a tool for characterization of LncRNA from raw reads .
 `CHOLAR` i) identifies novel lncRNAs from raw reads ii) provides a user-friendly GUI interface to make changes
 at every step iii) allows to identify differentially expressed genes and lists known and novel lncRNAs iv) generates
 publication-quality plots such as MA plot, Volcano plot and heatmap.
