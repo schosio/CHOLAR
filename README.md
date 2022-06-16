@@ -30,9 +30,15 @@ bash CHOLAR_GUI.sh
 ```
 
 
-This will pop up a window to input sample names in the box and sample condition separated by comma.
+ 2.1 This will pop up a window to input sample names in the box and sample condition separated by comma.
 
 ![Input window](src/docu_1.png)
+
+2.2 Then the Annotation file selection will appear (if it appears daunting, just press ok in both dialog box).
+
+![Annotation window](src/docu_2.png)
+![Annotation selection](src/docu_3.png)
+
 
 
 
