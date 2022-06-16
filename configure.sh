@@ -19,9 +19,12 @@ if [[ -n "$( uname | grep Darwin)" ]]; then
                 done                        
 
 elif [[ -n "$(expr substr $(uname -s) 1 5 | grep Linux)" ]]; then
-
-        for i in ${linux_dep[@]}; do
-                if [[ -n "$(awk -F= '/^NAME/{print $2}' /etc/os-release | tr -d '"' | grep Ubuntu)" ]]; then
+        
+        if [[ -n "$(awk -F= '/^NAME/{print $2}' /etc/os-release | tr -d '"' | grep Ubuntu)" ]]; then
+                
+                sudo apt-get update -y
+                sudo apt-get upgrade -y
+                for i in ${linux_dep[@]}; do
                         echo "
               #########################################
                            System is Ubuntu
@@ -30,10 +33,14 @@ elif [[ -n "$(expr substr $(uname -s) 1 5 | grep Linux)" ]]; then
               ######################################### 
                      Installing the $i !!
               #########################################"
-                        sudo apt-get update -y
-                        sudo apt-get upgrade -y
                         sudo apt-get install -y $i
-                elif [[ -n "$(awk -F= '/^NAME/{print $2}' /etc/os-release | tr -d '"' | grep CentOS)" ]]; then
+                done
+
+        elif [[ -n "$(awk -F= '/^NAME/{print $2}' /etc/os-release | tr -d '"' | grep CentOS)" ]]; then
+                
+                sudo yum update -y
+                sudo yum upgrade -y
+                for i in ${linux_dep[@]}; do
                         echo "
               #########################################
                            System is CentOS
@@ -42,11 +49,10 @@ elif [[ -n "$(expr substr $(uname -s) 1 5 | grep Linux)" ]]; then
               ######################################### 
                      Installing the $i !!
               #########################################"
-                        sudo yum update -y
-                        sudo yum upgrade -y
                         sudo yum install -y $i
-                fi
                 done
+        fi
+        
  fi
             
 
