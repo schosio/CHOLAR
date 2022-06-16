@@ -15,7 +15,7 @@ if [[ -n "$( uname | grep Darwin)" ]]; then
               ######################################### 
                      Installing the $i !!
               #########################################"
-                brew install -y $i
+                brew install $i
                 done                        
 
 elif [[ -n "$(expr substr $(uname -s) 1 5 | grep Linux)" ]]; then
@@ -163,7 +163,7 @@ elif [[ (-n "$(which conda | grep conda)") && (-n "$(expr substr $(uname -s) 1 5
         conda activate ngs
         echo "
               ##########################################
-                    Miniconda is already Installed
+                    Anaconda is already Installed
                       NGS environment is present
                           NGS is Activated      
               ##########################################
@@ -187,7 +187,7 @@ elif [[ (-n "$(which conda | grep conda)") && (-z "$(conda env list | grep ngs)"
         "
         elif [[ -d ~/anaconda3 ]]; then
        
-        source ~/miniconda3/etc/profile.d/conda.sh
+        source ~/anaconda3/etc/profile.d/conda.sh
         conda activate ngs
         echo "
               #########################################
