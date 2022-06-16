@@ -534,7 +534,7 @@ elif [[ (-n "$(which R | grep envs)") && ( $(R --version | grep "R version" | cu
         
         conda config --add channels conda-forge
         conda config --set channel_priority strict
-        conda update -c conda-forge r-base
+        conda update -y -q -c conda-forge r-base
         echo "
                 ##########################################
                 
