@@ -32,6 +32,8 @@ bash CHOLAR_GUI.sh
 
 This will pop up a window to input sample names in the box and sample condition separated by comma.
 
+![Input window](/src/)
+
 
 
 
