@@ -14,7 +14,7 @@ For macOS, pre-requisite
 
 
 
-Execute the configure file on LINUX/UNIX system using terminal:
+1. Execute the configure file on LINUX/UNIX system using terminal:
 
 ```sh
 bash configure.sh
@@ -23,7 +23,7 @@ bash configure.sh
 This will prompt to give password. Enter it and let the script run.
 
 
-Then execute CHOLOAR GUI file using:
+2. Then execute CHOLOAR GUI file using:
 
 ```sh
 bash CHOLAR_GUI.sh
