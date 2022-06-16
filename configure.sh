@@ -491,7 +491,7 @@ if [[ -z "$(which R | grep R)" ]]; then
                         
               ##########################################
               "
-elif [[ -z "$(which R | grep envs)" ]]; then
+elif [[ ( -n "$(which R | grep R)") && (-z "$(which R | grep envs)") ]]; then
         echo "
               #########################################
                    r not installed on conda env
@@ -516,7 +516,7 @@ elif [[ -z "$(which R | grep envs)" ]]; then
               ##########################################
               "
 
-elif [[ (-z "$(which R | grep envs)") && ( $(R --version | grep "R version" | cut -d " " -f3 | cut -d "." -f1) -le 3 ) ]]; then
+elif [[ (-n "$(which R | grep envs)") && ( $(R --version | grep "R version" | cut -d " " -f3 | cut -d "." -f1) -le 3 ) ]]; then
       	
                 
                 
