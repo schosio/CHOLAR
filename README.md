@@ -37,7 +37,7 @@ bash CHOLAR_GUI.sh
 2.2 Then the Annotation file selection will appear (if it appears daunting, just press ok in both dialog box).
 
 ![Annotation window](src/docu_2.png)
-![Annotation selection](src/docu_3.png)
+![Annotation selection](src/docu_3.png){width=50%}
 
 
 
