@@ -29,22 +29,22 @@ bibliography: paper.bib
 
 # Summary
 
-RNA-sequencing has found numerous implementations in research, from distinguishing immune cell subtypes 
+RNA-sequencing has been used for numerous discoveries in research, from distinguishing immune cell subtypes 
 to differential gene expression between cancer versus normal tissue types [@Villani2017;@Bao2021].
 Another application of RNA-seq is to identify novel transcripts involved in various biological processes
 [@Gupta2021]. The most relevant is context and cell-type-specific non-coding RNAs,
 such as long non-coding RNAs (lncRNAs), which have become a case-point for most transcriptomic studies proving
 their role in regulating gene expression, post-transcriptional regulation, and epigenetic regulation [@Engreitz2016;@Zhu2019].
 It is becoming crucial to check the relative expression of lncRNAs in transcriptome-wide studies. Our group
-has developed an automated lncRNA expression pipeline. The only requirement from the user-side is raw data in
-FASTQ format. The user will get a list of known and novel lncRNAs, and differential
-gene expression between condition(s). The pipelines come with a user-friendly GUI, thereby eliminating the need
+has developed an automated lncRNA expression and differntial expression analysis pipeline. The only requirement from the user-side is raw data in
+FASTQ format. The user gets a list of known and novel lncRNAs, and differential
+gene expression between condition(s). The pipeline comes with a user-friendly GUI, thereby eliminating the need
 for the user to be versed in complex transcriptome analysis and UNIX environment.  The source code is available
 under an open-source licence at https://github.com/schosio/CHOLAR.
 
 # Statement of need
 
-The number of inferences generated from RNA-seq datasets is countless. The software used in the RNA-seq analysis
+The inferences generated from RNA-seq datasets are multifaceted and inevitable. The software used in the RNA-seq analysis
 pipeline requires a UNIX-based command-line interactive (CLI) environment, with each software executed in succession.
 Installing multiple CLI tools, handling various file formats, and plotting graphs require understanding of Linux and
 R programming language. Moreover, no tool identifies novel lncRNAs from raw transcriptomic data to the best of our
