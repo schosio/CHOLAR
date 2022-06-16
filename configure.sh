@@ -13,7 +13,7 @@ if [[ -n "$( uname | grep Darwin)" ]]; then
               #########################################  
                          Checking dependencies
               ######################################### 
-                     Installing the missing ones !!
+                     Installing the $i !!
               #########################################"
                 brew install -y $i
                 done                        
@@ -28,7 +28,7 @@ elif [[ -n "$(expr substr $(uname -s) 1 5 | grep Linux)" ]]; then
               #########################################  
                          Checking dependencies
               ######################################### 
-                     Installing the missing ones !!
+                     Installing the $i !!
               #########################################"
                         sudo apt-get update -y
                         sudo apt-get upgrade -y
@@ -40,7 +40,7 @@ elif [[ -n "$(expr substr $(uname -s) 1 5 | grep Linux)" ]]; then
               #########################################  
                          Checking dependencies
               ######################################### 
-                     Installing the missing ones !!
+                     Installing the $i !!
               #########################################"
                         sudo yum update -y
                         sudo yum upgrade -y
