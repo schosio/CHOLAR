@@ -568,8 +568,10 @@ elif [[ (! -d $HOME/C_files/application/Trimmomatic-0.39) && ( -f "$f1") ]]; the
 fi
 
 # install CPAT
-pip3 install CPAT
 
+if [[ -z "$(which cpat.py | grep cpat.py)" ]]; then
+        pip3 install CPAT
+fi
 #downloading Cpat files
 
 #mkdir -p /opt/genome/human/CPAT
