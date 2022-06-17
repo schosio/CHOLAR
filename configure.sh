@@ -599,8 +599,6 @@ elif [[ ( -d "$d2") && (! -f "$f2") ]]; then
 	cd $HOME/C_files/genome/human/hg38/annotation
 	sudo gzip -d gencode.v40.chr_patch_hapl_scaff.annotation.gtf.gz
 		
-		
-
 fi
 
 # create splice site file
@@ -646,6 +644,4 @@ if [[ ! -f "$f5" ]]; then
 fi
 # Installing R packages
 
-R -e 'if (!requireNamespace(c("BiocManager", "ggrepel", "dplyr", "ggplot", "data.table"), quietly = TRUE));install.packages(c("BiocManager", "ggrepel", "dplyr", "ggplot", "data.table"), repos="https://cloud.r-project.org")'
-
-R -e 'if (!requireNamespace("DESeq2", quietly = TRUE);pkgs <- rownames(installed.packages());BiocManager::install(pkgs, type = "source", checkBuilt = TRUE);BiocManager::install("DESeq2")'
+Rscript $script_dir/source/conf.R
