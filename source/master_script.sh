@@ -70,9 +70,9 @@ for infile in *1.fastq
         R1_unpaired=${name}_1unpaired.fastq
         R2_paired=${name}_2paired.fastq
         R2_unpaired=${name}_2unpaired.fastq
-          java -jar /opt/software/Trimmomatic-0.39/trimmomatic-0.39.jar PE -threads $threads -phred33 -summary \
+          java -jar $HOME/C_files/application/Trimmomatic-0.39/trimmomatic-0.39.jar PE -threads $threads -phred33 -summary \
         ${name}_statsSummaryFile.txt $infile ${name}_2.fastq $R1_paired $R1_unpaired $R2_paired $R2_unpaired \
-        ILLUMINACLIP:/opt/software/Trimmomatic-0.39/adapters/TruSeq3-PE.fa:2:40:15 LEADING:28 TRAILING:28 AVGQUAL:28 MINLEN:50 
+        ILLUMINACLIP:$HOME/C_files/application/Trimmomatic-0.39/adapters/TruSeq3-PE.fa:2:40:15 LEADING:28 TRAILING:28 AVGQUAL:28 MINLEN:50 
 done
 
 #sorting the output files in different directories
