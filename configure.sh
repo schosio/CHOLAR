@@ -197,242 +197,88 @@ elif [[ (-n "$(which conda | grep conda)") && (-z "$(conda env list | grep ngs)"
         fi
 fi
 
+conda_dep=( fastqc multiqc hisat2 samtools stringtie gffcompare gffread)
 
+for i in ${conda_dep[@]}; do
 
-if [[ -z "$(which fastqc | grep fastqc)" ]]; then
-        echo "
-              #########################################
-                       fastqc not installed
-              #########################################  
-                        So let's install it
-              #########################################
-                      Installing fastqc now !!
-              #########################################
-              "
-        conda install -q -y -c bioconda fastqc
-        
-        echo "
-              ##########################################
-              
-                           Installed fastqc      
-                        
-              ##########################################
-              "
-        echo " 
-        
-        for more information visit https://www.bioinformatics.babraham.ac.uk/projects/fastqc/"
-        
-else
-       	echo "
-              ##########################################
-              
-                     fastqc is already installed      
-                        
-              ##########################################
-              "
-fi
+        if [[ -z "$(which $i | grep $i)" ]]; then
+                echo "
+                      #########################################
+                               $i not installed
+                      #########################################  
+                                So lets install it
+                      #########################################
+                              Installing $i now !!
+                      #########################################
+                      "
+                conda install -q -y -c bioconda $i
 
+                echo "
+                      ##########################################
 
-if [[ -z "$(which multiqc | grep multiqc)" ]]; then
-        echo "
-              #########################################
-                       multiqc not installed
-              #########################################  
+                                   Installed $i
 
-                        So let's install it
-              #########################################
-                      Installing multiqc now !!
-              #########################################
-              "
-        conda install -q -y -c bioconda multiqc
-        
-        echo "
-              ##########################################
-              
-                        Installed multiqc      
-                        
-              ##########################################
-              "
-        echo " 
-        
-        For further reading  visit https://multiqc.info/ 
-        
-        "
-else
-      	echo "
-              ##########################################
-              
-                     multiqc is already installed      
-                        
-              ##########################################
-              "
-fi
+                      ##########################################
+                      "
+
+                echo $i
+
+        elif [[ (-n "$(which $i | grep $i)") && (-z "$(which $i | grep envs)") ]]; then
+
+                echo "
+                      #########################################
+                               $i not installed on env
+                      #########################################  
+                                So let install it
+                      #########################################
+                              Installing $i now !!
+                      #########################################
+                      "
+                conda install -q -y -c bioconda $i
+
+                echo "
+                      ##########################################
+
+                                   Installed $i
+
+                      ##########################################
+                      "
+        elif [[ (-z "$(which $i | grep $i)") && (-z "$(which $i | grep envs)") ]]; then
+                echo "
+                      #########################################
+                               $i not installed on env
+                      #########################################  
+                                So let install it
+                      #########################################
+                              Installing $i now !!
+                      #########################################
+                      "
+                conda install -q -y -c bioconda $i
+
+                echo "
+                      ##########################################
+
+                                   Installed $i
+
+                      ##########################################
+                      "
 
 
 
-if [[ -z "$(which hisat2 | grep hisat2)" ]]; then
-         echo "
-              #########################################
-                        hisat2 not installed
-              #########################################  
-                        So let's install it
-              #########################################
+        else
+                echo "
+                              ##########################################
 
-                      Installing hisat2 now !!
-              #########################################
-              "
-        conda install -q -y -c bioconda hisat2
-        
-        echo "
-              ##########################################
-              
-                        Installed hisat2      
-                        
-              ##########################################
-              "
-        
-        echo " 
-        
-        For further reading https://daehwankimlab.github.io/hisat2/#:~:text=HISAT2%20is%20a%20fast%20and,for%20graphs%20(Sir%C3%A9n%20et%20al.
-        
-        "
-else
-      	echo "
-              ##########################################
-              
-                     hisat2 is already installed      
-                        
-              ##########################################
-              "
-fi
+                                     $i is already installed
+
+                              ##########################################
+                              "
+        fi
+done
 
 
 
 
-if [[ -z "$(which samtools | grep samtools)" ]]; then
-         echo "
-              #########################################
-                      samtools not installed
-              #########################################  
-                      So let's install it
-              #########################################
-                   Installing samtools now !!
-              #########################################
-              "
-        conda install -q -y -c bioconda samtools
-        
-        echo "
-              ##########################################
-              
-                        Installed samtools      
-                        
-              ##########################################
-              "
-        
-        echo " Please visit http://www.htslib.org/ "
-else
-    	  echo "
-              ##########################################
-              
-                     samtools is already installed      
-                        
-              ##########################################
-              "
-fi
-
-
-if [[ -z "$(which stringtie | grep stringtie)" ]]; then
-        echo "
-              #########################################
-                      stringtie not installed
-              #########################################  
-                      So let's install it
-              #########################################
-                   Installing stringtie now !!
-              #########################################
-              "
-        conda install -q -y -c bioconda stringtie
-        echo "
-              ##########################################
-              
-                        Installed stringtie      
-                        
-              ##########################################
-              "
-
-        echo " Please visit https://ccb.jhu.edu/software/stringtie/#:~:text=StringTie%20is%20a%20fast%20and,variants%20for%20each%20gene%20locus. "
-else
-      	echo "
-              ##########################################
-              
-                     stringtie is already installed      
-                        
-              ##########################################
-              "
-fi
-
-
-if [[ -z "$(which gffcompare | grep gffcompare)" ]]; then
-        echo "
-              #########################################
-                      gffcompare not installed
-              #########################################  
-                      So let's install it
-              #########################################
-                   Installing gffcompare now !!
-              #########################################
-              "
-        conda install -q -y -c bioconda gffcompare
-        
-        echo "
-              ##########################################
-              
-                        Installed gffcompare      
-                        
-              ##########################################
-              "
-        
-        
-else
-    	echo "
-              ##########################################
-              
-                     gffcompare is already installed      
-                        
-              ##########################################
-              "
-fi
-
-
-if [[ -z "$(which gffread | grep gffread)" ]]; then
-        echo "
-              #########################################
-                      gffread not installed
-              #########################################  
-                      So let's install it
-              #########################################
-                     Installing gffread now !!
-              #########################################
-              "
-        conda install -q -y -c bioconda gffread
-        
-        echo "
-              ##########################################
-              
-                         Installed gffread      
-                        
-              ##########################################
-              "
-                
-else
-      	echo "
-              ##########################################
-              
-                     gffread is already installed      
-                        
-              ##########################################
-              "
-fi
 
 
 if [[ -z "$(which htseq-count | grep htseq-count)" ]]; then
