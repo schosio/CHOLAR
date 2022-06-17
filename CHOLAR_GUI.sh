@@ -1,5 +1,5 @@
 
-description=$(zenity --forms --title="Identification of LncRNA" --text="Assign experiment code (no spaces!)" --add-entry="SAMPLE NAMES 
+description=$(zenity --forms --title="Identification of LncRNA" --text="Input names without (_1/_2) and other underscore ("_")" --add-entry="SAMPLE NAMES 
 (sep by ',')
 [Samplel,Sample2,Sample3,Sample4]" --add-entry="SAMPLE TYPES (sep by ',')
 { add condion in same order as sample } [cntrl,cntrl,treat,treat]")
