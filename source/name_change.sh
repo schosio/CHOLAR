@@ -1,7 +1,9 @@
 #!/bin/bash
 
 # path for map file, example /home/username/map.txt
-map_file=map.txt
+input=$1
+cd $input
+map_file=$2
 
 #create a for loop to collect the files for which name has to chnaged 
 for i in *.fastq
@@ -21,7 +23,7 @@ for i in *.fastq
                 if [ $name == $first ]
                 then
 		# if the condition is true, changing the filename using corresponding second value in the map file 
-			mv ${name}_${ext} ${second}-${name}_${ext}
+		mv ${name}_${ext} ${second}-${name}_${ext}
                 fi
                 done < ${map_file}
         done

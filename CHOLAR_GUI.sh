@@ -55,12 +55,12 @@ LOGF=$(zenity --file-selection --directory --filename $IN --title="***Log direct
 len=${#arr[@]}
 for (( idx = 0; idx < len; idx++ ));
 do
-        echo "${arr[idx]}       ${arr2[idx]}" >>map.txt
+        echo "${arr[idx]}       ${arr2[idx]}" >> $IN/map.txt
 done
 
-bash $R/source/name_change.sh
+bash $R/source/name_change.sh $IN $IN/map.txt
 
-rm map.txt
+rm $IN/map.txt
 
 
 th=$(nproc --all)
