@@ -564,6 +564,8 @@ elif [[ (-d "$d1") && (! -f "$f1") ]]; then
 	unzip Trimmomatic-0.39.zip
 elif [[ (! -d $HOME/C_files/application/Trimmomatic-0.39) && ( -f "$f1") ]]; then
         unzip $f1
+else 
+        echo" Trimmomatic is present"
 
 fi
 
@@ -571,6 +573,8 @@ fi
 
 if [[ -z "$(which cpat.py | grep cpat.py)" ]]; then
         pip3 install CPAT
+else 
+        echo "CPAT is present"
 fi
 #downloading Cpat files
 
@@ -598,6 +602,8 @@ elif [[ ( -d "$d2") && (! -f "$f2") ]]; then
 	sudo mv *.annotation.gtf.gz $HOME/C_files/genome/human/hg38/annotation
 	cd $HOME/C_files/genome/human/hg38/annotation
 	sudo gzip -d gencode.v40.chr_patch_hapl_scaff.annotation.gtf.gz
+else
+        echo " Annotation file is present"
 		
 fi
 
@@ -605,6 +611,8 @@ fi
 f3=$HOME/C_files/genome/human/hg38/annotation/gencode.v40.splicesite.annotation.ss
 if [[ ! -f "$f3" ]]; then
 	hisat2_extract_splice_sites.py $HOME/C_files/genome/human/hg38/annotation/gencode.v40.chr_patch_hapl_scaff.annotation.gtf > gencode.v40.splicesite.annotation.ss
+else 
+        echo "splice site file is present"
 fi
 # Downloading reference genome
 
@@ -633,6 +641,8 @@ elif [[ (-d "$d3") && (! -f "$f4") ]]; then
 	mv hg38.fa.gz $HOME/C_files/genome/human/hg38/ref_gen
 	cd $HOME/C_files/genome/human/hg38/ref_gen
 	gzip -d hg38.fa.gz
+else
+        echo " reference genome file is present"
 
 fi
 
@@ -641,6 +651,8 @@ fi
 f5=$HOME/C_files/genome/human/hg38/ref_gen/hg38.1.ht2
 if [[ ! -f "$f5" ]]; then
 	hisat2-build hg38.fa hg38
+else
+        echo " indexed genome is present"
 fi
 # Installing R packages
 
