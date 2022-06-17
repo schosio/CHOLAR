@@ -650,7 +650,7 @@ fi
 
 f5=$HOME/C_files/genome/human/hg38/ref_gen/hg38.1.ht2
 if [[ ! -f "$f5" ]]; then
-	hisat2-build hg38.fa hg38
+	hisat2-build hg38.fa hg38.fa
 else
         echo " indexed genome is present"
 fi
