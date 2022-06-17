@@ -611,23 +611,29 @@ fi
 d3=$HOME/C_files/genome/human/hg38/ref_gen
 f4=$HOME/C_files/genome/human/hg38/ref_gen/hg38.fa
 
-if [[ ! -d "$d3" ]]; then
+if [[ (! -d "$d3") && (! -f "$f4") ]]; then
 	mkdir -p $HOME/C_files/genome/human/hg38/ref_gen
-	if [[ ! -f "$f4" ]]; then
-		cd $script_dir
-		curl -OL "http://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/hg38.fa.gz"
-		mv hg38.fa.gz $HOME/C_files/genome/human/hg38/ref_gen
-		cd $HOME/C_files/genome/human/hg38/ref_gen
-		gzip -d hg38.fa.gz
-        elif [[ -f "$f4.gz" ]]; then
-                rm *.gz
-                cd $script_dir
-		curl -OL "http://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/hg38.fa.gz"
-		mv hg38.fa.gz $HOME/C_files/genome/human/hg38/ref_gen
-		cd $HOME/C_files/genome/human/hg38/ref_gen
-		gzip -d hg38.fa.gz
+        cd $script_dir
+	curl -OL "http://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/hg38.fa.gz"
+	mv hg38.fa.gz $HOME/C_files/genome/human/hg38/ref_gen
+	cd $HOME/C_files/genome/human/hg38/ref_gen
+	gzip -d hg38.fa.gz
 
-	fi
+elif [[ (-d "$d3") && (-f "$f4.gz") && (! -f "$f4") ]]; then
+        rm *.gz
+        cd $script_dir
+	curl -OL "http://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/hg38.fa.gz"
+	mv hg38.fa.gz $HOME/C_files/genome/human/hg38/ref_gen
+	cd $HOME/C_files/genome/human/hg38/ref_gen
+	gzip -d hg38.fa.gz
+
+elif [[ (-d "$d3") && (! -f "$f4") ]]; then
+	cd $script_dir
+	curl -OL "http://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/hg38.fa.gz"
+	mv hg38.fa.gz $HOME/C_files/genome/human/hg38/ref_gen
+	cd $HOME/C_files/genome/human/hg38/ref_gen
+	gzip -d hg38.fa.gz
+
 fi
 
 #index building 
