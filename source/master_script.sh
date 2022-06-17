@@ -1,6 +1,24 @@
 #!/bin/bash
-set -e
-set -v
+
+if [[ -d ~/miniconda3 ]]; then
+       
+        source ~/miniconda3/etc/profile.d/conda.sh
+        conda activate ngs
+        echo "
+              #########################################
+                    NGS is created and activated
+              #########################################  
+        "
+elif [[ -d ~/anaconda3 ]]; then
+       
+        source ~/anaconda3/etc/profile.d/conda.sh
+        conda activate ngs
+        echo "
+              #########################################
+                    NGS is created and activated
+              #########################################  
+        "
+fi
 
 #seting variables
 
