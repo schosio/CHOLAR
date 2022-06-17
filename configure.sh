@@ -562,6 +562,8 @@ elif [[ (-d "$d1") && (! -f "$f1") ]]; then
 	mv Trimmomatic-0.39.zip $d1
 	cd $d1
 	unzip Trimmomatic-0.39.zip
+elif [[ (! -d $HOME/C_files/application/Trimmomatic-0.39) && ( -f "$f1") ]]; then
+        unzip $f1
 
 fi
 
@@ -583,15 +585,20 @@ pip3 install CPAT
 
 d2=$HOME/C_files/genome/human/hg38/annotation
 f2=$HOME/C_files/genome/human/hg38/annotation/gencode.v40.chr_patch_hapl_scaff.annotation.gtf
-if [[ ! -d "$d2" ]]; then
+if [[ (! -d "$d2") && (! -f "$f2") ]]; then
 	mkdir -p $HOME/C_files/genome/human/hg38/annotation
-	if [[ ! -f "$f2" ]]; then
-		curl -OL "https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_40/gencode.v40.chr_patch_hapl_scaff.annotation.gtf.gz"
-		sudo mv *.annotation.gtf.gz $HOME/C_files/genome/human/hg38/annotation
-		cd $HOME/C_files/genome/human/hg38/annotation
-		sudo gzip -d gencode.v40.chr_patch_hapl_scaff.annotation.gtf.gz
+        curl -OL "https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_40/gencode.v40.chr_patch_hapl_scaff.annotation.gtf.gz"
+	sudo mv *.annotation.gtf.gz $HOME/C_files/genome/human/hg38/annotation
+	cd $HOME/C_files/genome/human/hg38/annotation
+	sudo gzip -d gencode.v40.chr_patch_hapl_scaff.annotation.gtf.gz
+elif [[ ( -d "$d2") && (! -f "$f2") ]]; then
+        curl -OL "https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_40/gencode.v40.chr_patch_hapl_scaff.annotation.gtf.gz"
+	sudo mv *.annotation.gtf.gz $HOME/C_files/genome/human/hg38/annotation
+	cd $HOME/C_files/genome/human/hg38/annotation
+	sudo gzip -d gencode.v40.chr_patch_hapl_scaff.annotation.gtf.gz
 		
-	fi
+		
+
 fi
 
 # create splice site file
@@ -631,6 +638,6 @@ if [[ ! -f "$f5" ]]; then
 fi
 # Installing R packages
 
-R -e 'install.packages(c("BiocManager", "ggrepel", "dplyr", "ggplot", "data.table"), repos="https://cloud.r-project.org")'
+R -e 'if (!requireNamespace(c("BiocManager", "ggrepel", "dplyr", "ggplot", "data.table"), quietly = TRUE));install.packages(c("BiocManager", "ggrepel", "dplyr", "ggplot", "data.table"), repos="https://cloud.r-project.org")'
 
-R -e 'pkgs <- rownames(installed.packages());BiocManager::install(pkgs, type = "source", checkBuilt = TRUE);BiocManager::install("DESeq2")'
+R -e 'if (!requireNamespace("DESeq2", quietly = TRUE);pkgs <- rownames(installed.packages());BiocManager::install(pkgs, type = "source", checkBuilt = TRUE);BiocManager::install("DESeq2")'
