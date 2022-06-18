@@ -1,3 +1,6 @@
+# CHOLAR
+
+**CHOLAR** stands for **CH**aracterization **O**f 
 ## Download the CHOLAR
 
 Download from official link: 
