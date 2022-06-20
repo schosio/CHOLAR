@@ -8,7 +8,7 @@ tags:
   - lncRNA
 
 authors:
-  - name: Haneesh Jindal 
+  - name: Haneesh J 
     orcid: 0000-0003-0632-7330
     affiliation: 1 
   - name: Anubha Dey
