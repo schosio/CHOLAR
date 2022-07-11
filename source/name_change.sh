@@ -2,7 +2,7 @@
 
 # path for map file, example /home/username/map.txt
 input=$1
-cd $input
+cd ${input}
 map_file=$2
 
 #create a for loop to collect the files for which name has to chnaged 
@@ -16,11 +16,11 @@ for i in *.fastq
         while read -r line
                 do
 		# storing first value of given line in the map file
-                first=$( echo $line | awk '{print $1}')
+                first=$( echo ${line} | awk '{print $1}')
 		# storing second value of the given line in the map file
-                second=$( echo $line | awk '{print $2}')
+                second=$( echo ${line} | awk '{print $2}')
 		# checking the old filename agaist first value in map file
-                if [ $name == $first ]
+                if [ ${name} == ${first} ]
                 then
 		# if the condition is true, changing the filename using corresponding second value in the map file 
 		mv ${name}_${ext} ${second}-${name}_${ext}

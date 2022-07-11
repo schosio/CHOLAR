@@ -1,7 +1,8 @@
 #!/bin/bash
  
 
-linux_dep=( zenity curl parallel python3-pip git libcurl4-openssl-dev libmagick++-dev libmariadbclient-dev libssl-dev)
+linux_dep=( zenity curl parallel python3-pip git libcurl4-openssl-dev \
+        libmagick++-dev libmariadbclient-dev libssl-dev)
 
 
 if [[ -n "$( uname | grep Darwin)" ]]
@@ -23,7 +24,8 @@ if [[ -n "$( uname | grep Darwin)" ]]
 elif [[ -n "$(expr substr $(uname -s) 1 5 | grep Linux)" ]]
         then
         
-        if [[ -n "$(awk -F= '/^NAME/{print $2}' /etc/os-release | tr -d '"' | grep Ubuntu)" ]]
+        if [[ -n "$(awk -F= '/^NAME/{print $2}' /etc/os-release | tr -d '"' \
+                | grep Ubuntu)" ]]
                 then
                 
                 sudo apt-get update -y
@@ -41,7 +43,8 @@ elif [[ -n "$(expr substr $(uname -s) 1 5 | grep Linux)" ]]
                         sudo apt-get install -y $i
                         done
 
-        elif [[ -n "$(awk -F= '/^NAME/{print $2}' /etc/os-release | tr -d '"' | grep CentOS)" ]]
+        elif [[ -n "$(awk -F= '/^NAME/{print $2}' /etc/os-release | tr -d '"' \
+                | grep CentOS)" ]]
                 then
                 
                 sudo yum update -y
@@ -120,7 +123,8 @@ if [[ (-z "$(which conda | grep conda)") && (-n "$( uname | grep Darwin)") ]]
               ##########################################
               "
         
-elif [[ (-z "$(which conda | grep conda)") && (-n "$(expr substr $(uname -s) 1 5 | grep Linux)") ]]
+elif [[ (-z "$(which conda | grep conda)") && (-n "$(expr substr $(uname -s) 1 5 \
+        | grep Linux)") ]]
         then
         
         echo "
@@ -155,7 +159,8 @@ elif [[ (-n "$(which conda | grep conda)") && (-n "$( uname | grep Darwin)") ]]
         sudo mkdir -p $HOME/miniconda3/c_pkgs
         sudo conda config --add pkgs_dirs c_pkgs
 
-elif [[ (-n "$(which conda | grep conda)") && (-n "$(expr substr $(uname -s) 1 5 | grep Linux)") && (-n "$(conda env list | grep ngs)") ]]
+elif [[ (-n "$(which conda | grep conda)") && (-n "$(expr substr $(uname -s) 1 5 \
+        | grep Linux)") && (-n "$(conda env list | grep ngs)") ]]
         then
         
         if [[ -d ~/miniconda3 ]]
@@ -184,7 +189,8 @@ elif [[ (-n "$(which conda | grep conda)") && (-n "$(expr substr $(uname -s) 1 5
               "
         fi
 
-elif [[ (-n "$(which conda | grep conda)") && (-z "$(conda env list | grep ngs)") &&  (-n "$(expr substr $(uname -s) 1 5 | grep Linux)") ]]
+elif [[ (-n "$(which conda | grep conda)") && (-z "$(conda env list | grep ngs)") \
+        &&  (-n "$(expr substr $(uname -s) 1 5 | grep Linux)") ]]
         then
         
         conda create -q -y -n ngs python=3
@@ -386,7 +392,8 @@ then
               ##########################################
               "
 
-elif [[ (-n "$(which R | grep envs)") && ( $(R --version | grep "R version" | cut -d " " -f3 | cut -d "." -f1) -le 3 ) ]]
+elif [[ (-n "$(which R | grep envs)") && ( $(R --version | grep "R version" \
+        | cut -d " " -f3 | cut -d "." -f1) -le 3 ) ]]
 then
       	
                 
@@ -489,7 +496,8 @@ fi
 f3=$HOME/C_files/genome/human/hg38/annotation/gencode.v40.splicesite.annotation.ss
 if [[ ! -f "$f3" ]]
 then
-	hisat2_extract_splice_sites.py $HOME/C_files/genome/human/hg38/annotation/gencode.v40.chr_patch_hapl_scaff.annotation.gtf > gencode.v40.splicesite.annotation.ss
+	hisat2_extract_splice_sites.py $HOME/C_files/genome/human/hg38/annotation/gencode.v40.chr_patch_hapl_scaff.annotation.gtf \
+         > gencode.v40.splicesite.annotation.ss
 else 
         echo "splice site file is present"
 fi

@@ -1,6 +1,7 @@
 #!/bin/bash
 
-if [[ -d ~/miniconda3 ]]; then
+if [[ -d ~/miniconda3 ]]
+then
        
         source ~/miniconda3/etc/profile.d/conda.sh
         conda activate ngs
@@ -9,7 +10,8 @@ if [[ -d ~/miniconda3 ]]; then
                     NGS is created and activated
               #########################################  
         "
-elif [[ -d ~/anaconda3 ]]; then
+elif [[ -d ~/anaconda3 ]]
+then
        
         source ~/anaconda3/etc/profile.d/conda.sh
         conda activate ngs
@@ -50,12 +52,14 @@ date
 cd $in_dir
 #creating directory for storing fastqc_report of raw fastq files
 d1=$in_dir/raw_fastqc_report
-if [[ ! -d "$d1" ]]; then
+if [[ ! -d "$d1" ]]
+then
         mkdir raw_fastqc_report
 fi
 
 # run fastqc on all fastq or fastq.gz files
-find $in_dir -type f \( -name "*.fastq.gz" -o -name "*.fastq" \) | parallel -j $threads -v -I% --max-args 1 fastqc -o raw_fastqc_report/
+find $in_dir -type f \( -name "*.fastq.gz" -o -name "*.fastq" \) \
+        | parallel -j $threads -v -I% --max-args 1 fastqc -o raw_fastqc_report/
 
 #running multiqc to combine all fastqc reports
 multiqc $in_dir/raw_fastqc_report
@@ -70,7 +74,7 @@ for infile in *1.fastq
         R1_unpaired=${name}_1unpaired.fastq
         R2_paired=${name}_2paired.fastq
         R2_unpaired=${name}_2unpaired.fastq
-          java -jar $HOME/C_files/application/Trimmomatic-0.39/trimmomatic-0.39.jar PE -threads $threads -phred33 -summary \
+        java -jar $HOME/C_files/application/Trimmomatic-0.39/trimmomatic-0.39.jar PE -threads $threads -phred33 -summary \
         ${name}_statsSummaryFile.txt $infile ${name}_2.fastq $R1_paired $R1_unpaired $R2_paired $R2_unpaired \
         ILLUMINACLIP:$HOME/C_files/application/Trimmomatic-0.39/adapters/TruSeq3-PE.fa:2:40:15 LEADING:28 TRAILING:28 AVGQUAL:28 MINLEN:50 
 done
@@ -79,19 +83,22 @@ done
 rm *unpaired.fastq* 
 
 d2=$in_dir/Paired
-if [[ ! -d "$d2" ]]; then
+if [[ ! -d "$d2" ]]
+then
         mkdir Paired 
         mv *paired.fastq* Paired/        
 fi
 
 d3=$in_dir/raw_fastq
-if [[ ! -d "$d3" ]]; then
+if [[ ! -d "$d3" ]]
+then
         mkdir raw_fastq
         mv *.fastq* raw_fastq/
 fi
 
 d4=$in_dir/trim_summary
-if [[ ! -d "$d4" ]]; then
+if [[ ! -d "$d4" ]]
+then
         mkdir trim_summary
         mv *SummaryFile.txt trim_summary
 fi
@@ -101,7 +108,8 @@ fi
 #running fastqc on processed files
 cd $in_dir/Paired/
 mkdir processed_fastqc_report
-find $in_dir/Paired -type f \( -name "*.fastq.gz" -o -name "*.fastq" \) | parallel -j $threads -v -I% --max-args 1 fastqc -o processed_fastqc_report/
+find $in_dir/Paired -type f \( -name "*.fastq.gz" -o -name "*.fastq" \) \
+        | parallel -j $threads -v -I% --max-args 1 fastqc -o processed_fastqc_report/
 
 multiqc $in_dir/Paired/processed_fastqc_report
 
@@ -122,8 +130,9 @@ do
         #options for samtools: view is for file conversion, -bS is for .bam as output and .sam as input
         #options for samtools: sort is for sorting, -n is sorting by name, -o is for output
         #options for samtools: fixmate is for fix mate information, markdup is for marking duplicates
-        hisat2 -p $threads -x $idx --known-splicesite-infile $splicefile -1 $R1_pair -2 $R2_pair | samtools view -@ $threads -bS - | samtools \
-        sort -@ $threads -n - -o $name.sorted.bam
+        hisat2 -p $threads -x $idx --known-splicesite-infile $splicefile -1 $R1_pair -2 $R2_pair \
+                | samtools view -@ $threads -bS - \
+                | samtools sort -@ $threads -n - -o $name.sorted.bam
 done
 
 # removing PCR duplicates and index the bam files
@@ -131,7 +140,9 @@ for j in *.sorted.bam
 do
   	name1=$(echo $j | awk -F".sorted." '{print $1}')
         #options for samtools: fixmate is for fix mate information, markdup is for marking duplicates
-        samtools fixmate -@ $threads -m $j - | samtools sort -@ $threads - | samtools markdup -@ $threads -rs - $name1.rmPCRdup.bam
+        samtools fixmate -@ $threads -m $j - \
+                | samtools sort -@ $threads - \
+                | samtools markdup -@ $threads -rs - $name1.rmPCRdup.bam
         samtools index -@ 40 -b $name1.rmPCRdup.bam
 done
 
@@ -163,12 +174,16 @@ rm temp.gtf.list
 gffcompare -r ${annotation} -M -o common-merged $out_file
 
 # extract the no of putative novel transcript and save it in a report file
-nov_trans=$(cat common-merged.annotated.gtf |  awk '$3=="transcript" && $2=="StringTie"' | grep -v 'class_code "="' wc -l)
+nov_trans=$(cat common-merged.annotated.gtf \
+        | awk '$3=="transcript" && $2=="StringTie"' \
+        | grep -v 'class_code "="' wc -l)
 
 echo No of novel transcripts in the sample is $nov_trans > novel_trans_report.txt
 
 # extract the genomic coordinates of putative novel transcripts
-cat common-merged.annotated.gtf |  awk '$3=="transcript" && $2=="StringTie"' | grep -v 'class_code "="' >common_novel_transcript.gtf
+cat common-merged.annotated.gtf \
+        |  awk '$3=="transcript" && $2=="StringTie"' \
+        | grep -v 'class_code "="' >common_novel_transcript.gtf
 
 # extract the genomic sequences of the novel transcripts.
 
