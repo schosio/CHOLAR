@@ -4,9 +4,11 @@
 linux_dep=( zenity curl parallel python3-pip git libcurl4-openssl-dev libmagick++-dev libmariadbclient-dev libssl-dev)
 
 
-if [[ -n "$( uname | grep Darwin)" ]]; then
+if [[ -n "$( uname | grep Darwin)" ]]
+        then
         
-        for i in ${linux_dep[@]}; do
+        for i in ${linux_dep[@]}
+                do
                 echo "
               #########################################
                            System is macOS 
@@ -18,13 +20,16 @@ if [[ -n "$( uname | grep Darwin)" ]]; then
                 brew install $i
                 done                        
 
-elif [[ -n "$(expr substr $(uname -s) 1 5 | grep Linux)" ]]; then
+elif [[ -n "$(expr substr $(uname -s) 1 5 | grep Linux)" ]]
+        then
         
-        if [[ -n "$(awk -F= '/^NAME/{print $2}' /etc/os-release | tr -d '"' | grep Ubuntu)" ]]; then
+        if [[ -n "$(awk -F= '/^NAME/{print $2}' /etc/os-release | tr -d '"' | grep Ubuntu)" ]]
+                then
                 
                 sudo apt-get update -y
                 sudo apt-get upgrade -y
-                for i in ${linux_dep[@]}; do
+                for i in ${linux_dep[@]}
+                        do
                         echo "
               #########################################
                            System is Ubuntu
@@ -34,13 +39,15 @@ elif [[ -n "$(expr substr $(uname -s) 1 5 | grep Linux)" ]]; then
                      Installing the $i !!
               #########################################"
                         sudo apt-get install -y $i
-                done
+                        done
 
-        elif [[ -n "$(awk -F= '/^NAME/{print $2}' /etc/os-release | tr -d '"' | grep CentOS)" ]]; then
+        elif [[ -n "$(awk -F= '/^NAME/{print $2}' /etc/os-release | tr -d '"' | grep CentOS)" ]]
+                then
                 
                 sudo yum update -y
                 sudo yum upgrade -y
-                for i in ${linux_dep[@]}; do
+                for i in ${linux_dep[@]}
+                        do
                         echo "
               #########################################
                            System is CentOS
@@ -50,7 +57,7 @@ elif [[ -n "$(expr substr $(uname -s) 1 5 | grep Linux)" ]]; then
                      Installing the $i !!
               #########################################"
                         sudo yum install -y $i
-                done
+                        done
         fi
         
  fi
@@ -63,7 +70,8 @@ script_dir=$PWD
 ###########################    ##############################
 
  
-if [[ -z "$(which curl | grep curl)" ]]; then 
+if [[ -z "$(which curl | grep curl)" ]]
+        then 
 
 	sudo mkdir -p $HOME/C_files/application
 	cd $HOME/C_files/application
@@ -80,7 +88,8 @@ fi
 ###########################    ##############################
 
 
-if [[ (-z "$(which conda | grep conda)") && (-n "$( uname | grep Darwin)") ]]; then
+if [[ (-z "$(which conda | grep conda)") && (-n "$( uname | grep Darwin)") ]]
+        then
         
         echo "
               #########################################
@@ -111,7 +120,8 @@ if [[ (-z "$(which conda | grep conda)") && (-n "$( uname | grep Darwin)") ]]; t
               ##########################################
               "
         
-elif [[ (-z "$(which conda | grep conda)") && (-n "$(expr substr $(uname -s) 1 5 | grep Linux)") ]]; then
+elif [[ (-z "$(which conda | grep conda)") && (-n "$(expr substr $(uname -s) 1 5 | grep Linux)") ]]
+        then
         
         echo "
               #########################################
@@ -139,14 +149,17 @@ elif [[ (-z "$(which conda | grep conda)") && (-n "$(expr substr $(uname -s) 1 5
                             and activated   
               ##########################################
               "
-elif [[ (-n "$(which conda | grep conda)") && (-n "$( uname | grep Darwin)") ]]; then
+elif [[ (-n "$(which conda | grep conda)") && (-n "$( uname | grep Darwin)") ]]
+        then
         
         sudo mkdir -p $HOME/miniconda3/c_pkgs
         sudo conda config --add pkgs_dirs c_pkgs
 
-elif [[ (-n "$(which conda | grep conda)") && (-n "$(expr substr $(uname -s) 1 5 | grep Linux)") && (-n "$(conda env list | grep ngs)") ]]; then
+elif [[ (-n "$(which conda | grep conda)") && (-n "$(expr substr $(uname -s) 1 5 | grep Linux)") && (-n "$(conda env list | grep ngs)") ]]
+        then
         
-        if [[ -d ~/miniconda3 ]]; then
+        if [[ -d ~/miniconda3 ]]
+        then
        
         source ~/miniconda3/etc/profile.d/conda.sh
         conda activate ngs
@@ -157,7 +170,8 @@ elif [[ (-n "$(which conda | grep conda)") && (-n "$(expr substr $(uname -s) 1 5
                           NGS is Activated      
               ##########################################
               "
-        elif [[ -d ~/anaconda3 ]]; then
+        elif [[ -d ~/anaconda3 ]]
+        then
        
         source ~/anaconda3/etc/profile.d/conda.sh
         conda activate ngs
@@ -170,13 +184,15 @@ elif [[ (-n "$(which conda | grep conda)") && (-n "$(expr substr $(uname -s) 1 5
               "
         fi
 
-elif [[ (-n "$(which conda | grep conda)") && (-z "$(conda env list | grep ngs)") &&  (-n "$(expr substr $(uname -s) 1 5 | grep Linux)") ]]; then
+elif [[ (-n "$(which conda | grep conda)") && (-z "$(conda env list | grep ngs)") &&  (-n "$(expr substr $(uname -s) 1 5 | grep Linux)") ]]
+        then
         
         conda create -q -y -n ngs python=3
 	conda init bash
 	source ~/.bashrc
         
-        if [[ -d ~/miniconda3 ]]; then
+        if [[ -d ~/miniconda3 ]]
+        then
        
         source ~/miniconda3/etc/profile.d/conda.sh
         conda activate ngs
@@ -185,7 +201,8 @@ elif [[ (-n "$(which conda | grep conda)") && (-z "$(conda env list | grep ngs)"
                     NGS is created and activated
               #########################################  
         "
-        elif [[ -d ~/anaconda3 ]]; then
+        elif [[ -d ~/anaconda3 ]]
+        then
        
         source ~/anaconda3/etc/profile.d/conda.sh
         conda activate ngs
@@ -199,9 +216,11 @@ fi
 
 conda_dep=( fastqc multiqc hisat2 samtools stringtie gffcompare gffread)
 
-for i in ${conda_dep[@]}; do
+for i in ${conda_dep[@]}
+        do
 
-        if [[ -z "$(which $i | grep $i)" ]]; then
+        if [[ -z "$(which $i | grep $i)" ]]
+        then
                 echo "
                       #########################################
                                $i not installed
@@ -223,7 +242,8 @@ for i in ${conda_dep[@]}; do
 
                 echo $i
 
-        elif [[ (-n "$(which $i | grep $i)") && (-z "$(which $i | grep envs)") ]]; then
+        elif [[ (-n "$(which $i | grep $i)") && (-z "$(which $i | grep envs)") ]]
+        then
 
                 echo "
                       #########################################
@@ -243,7 +263,8 @@ for i in ${conda_dep[@]}; do
 
                       ##########################################
                       "
-        elif [[ (-z "$(which $i | grep $i)") && (-z "$(which $i | grep envs)") ]]; then
+        elif [[ (-z "$(which $i | grep $i)") && (-z "$(which $i | grep envs)") ]]
+        then
                 echo "
                       #########################################
                                $i not installed on env
@@ -281,7 +302,8 @@ done
 
 
 
-if [[ -z "$(which htseq-count | grep htseq-count)" ]]; then
+if [[ -z "$(which htseq-count | grep htseq-count)" ]]
+then
         echo "
               #########################################
                          htseq not installed
@@ -313,7 +335,8 @@ fi
 
 
 
-if [[ -z "$(which R | grep R)" ]]; then
+if [[ -z "$(which R | grep R)" ]]
+then
         echo "
               #########################################
                    r not installed on the system
@@ -337,7 +360,8 @@ if [[ -z "$(which R | grep R)" ]]; then
                         
               ##########################################
               "
-elif [[ ( -n "$(which R | grep R)") && (-z "$(which R | grep envs)") ]]; then
+elif [[ ( -n "$(which R | grep R)") && (-z "$(which R | grep envs)") ]]
+then
         echo "
               #########################################
                    r not installed on conda env
@@ -362,7 +386,8 @@ elif [[ ( -n "$(which R | grep R)") && (-z "$(which R | grep envs)") ]]; then
               ##########################################
               "
 
-elif [[ (-n "$(which R | grep envs)") && ( $(R --version | grep "R version" | cut -d " " -f3 | cut -d "." -f1) -le 3 ) ]]; then
+elif [[ (-n "$(which R | grep envs)") && ( $(R --version | grep "R version" | cut -d " " -f3 | cut -d "." -f1) -le 3 ) ]]
+then
       	
                 
                 
@@ -394,21 +419,25 @@ fi
 # download and place Trimmomatic
 d1=$HOME/C_files/application
 f1=$HOME/C_files/application/Trimmomatic-0.39.zip
-if [[ ! -d "$d1" ]]; then
+if [[ ! -d "$d1" ]]
+then
 	mkdir -p $HOME/C_files/application
-	if [[ ! -f "$f1" ]]; then
+	if [[ ! -f "$f1" ]]
+        then
 		curl -O http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/Trimmomatic-0.39.zip
 		mv Trimmomatic-0.39.zip $d1
 		cd $d1
 		unzip Trimmomatic-0.39.zip
 	
 	fi
-elif [[ (-d "$d1") && (! -f "$f1") ]]; then
+elif [[ (-d "$d1") && (! -f "$f1") ]]
+then
         curl -O http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/Trimmomatic-0.39.zip
 	mv Trimmomatic-0.39.zip $d1
 	cd $d1
 	unzip Trimmomatic-0.39.zip
-elif [[ (! -d $HOME/C_files/application/Trimmomatic-0.39) && ( -f "$f1") ]]; then
+elif [[ (! -d $HOME/C_files/application/Trimmomatic-0.39) && ( -f "$f1") ]]
+then
         unzip $f1
 else 
         echo" Trimmomatic is present"
@@ -417,7 +446,8 @@ fi
 
 # install CPAT
 
-if [[ -z "$(which cpat.py | grep cpat.py)" ]]; then
+if [[ -z "$(which cpat.py | grep cpat.py)" ]]
+then
         pip3 install CPAT
 else 
         echo "CPAT is present"
@@ -437,13 +467,15 @@ fi
 
 d2=$HOME/C_files/genome/human/hg38/annotation
 f2=$HOME/C_files/genome/human/hg38/annotation/gencode.v40.chr_patch_hapl_scaff.annotation.gtf
-if [[ (! -d "$d2") && (! -f "$f2") ]]; then
+if [[ (! -d "$d2") && (! -f "$f2") ]]
+then
 	mkdir -p $HOME/C_files/genome/human/hg38/annotation
         curl -OL "https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_40/gencode.v40.chr_patch_hapl_scaff.annotation.gtf.gz"
 	sudo mv *.annotation.gtf.gz $HOME/C_files/genome/human/hg38/annotation
 	cd $HOME/C_files/genome/human/hg38/annotation
 	sudo gzip -d gencode.v40.chr_patch_hapl_scaff.annotation.gtf.gz
-elif [[ ( -d "$d2") && (! -f "$f2") ]]; then
+elif [[ ( -d "$d2") && (! -f "$f2") ]]
+then
         curl -OL "https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_40/gencode.v40.chr_patch_hapl_scaff.annotation.gtf.gz"
 	sudo mv *.annotation.gtf.gz $HOME/C_files/genome/human/hg38/annotation
 	cd $HOME/C_files/genome/human/hg38/annotation
@@ -455,7 +487,8 @@ fi
 
 # create splice site file
 f3=$HOME/C_files/genome/human/hg38/annotation/gencode.v40.splicesite.annotation.ss
-if [[ ! -f "$f3" ]]; then
+if [[ ! -f "$f3" ]]
+then
 	hisat2_extract_splice_sites.py $HOME/C_files/genome/human/hg38/annotation/gencode.v40.chr_patch_hapl_scaff.annotation.gtf > gencode.v40.splicesite.annotation.ss
 else 
         echo "splice site file is present"
@@ -465,7 +498,8 @@ fi
 d3=$HOME/C_files/genome/human/hg38/ref_gen
 f4=$HOME/C_files/genome/human/hg38/ref_gen/hg38.fa
 
-if [[ (! -d "$d3") && (! -f "$f4") ]]; then
+if [[ (! -d "$d3") && (! -f "$f4") ]]
+then
 	mkdir -p $HOME/C_files/genome/human/hg38/ref_gen
         cd $script_dir
 	curl -OL "http://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/hg38.fa.gz"
@@ -473,7 +507,8 @@ if [[ (! -d "$d3") && (! -f "$f4") ]]; then
 	cd $HOME/C_files/genome/human/hg38/ref_gen
 	gzip -d hg38.fa.gz
 
-elif [[ (-d "$d3") && (-f "$f4.gz") && (! -f "$f4") ]]; then
+elif [[ (-d "$d3") && (-f "$f4.gz") && (! -f "$f4") ]]
+then
         rm *.gz
         cd $script_dir
 	curl -OL "http://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/hg38.fa.gz"
@@ -481,7 +516,8 @@ elif [[ (-d "$d3") && (-f "$f4.gz") && (! -f "$f4") ]]; then
 	cd $HOME/C_files/genome/human/hg38/ref_gen
 	gzip -d hg38.fa.gz
 
-elif [[ (-d "$d3") && (! -f "$f4") ]]; then
+elif [[ (-d "$d3") && (! -f "$f4") ]]
+then
 	cd $script_dir
 	curl -OL "http://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/hg38.fa.gz"
 	mv hg38.fa.gz $HOME/C_files/genome/human/hg38/ref_gen
@@ -495,7 +531,8 @@ fi
 #index building 
 
 f5=$HOME/C_files/genome/human/hg38/ref_gen/hg38.1.ht2
-if [[ ! -f "$f5" ]]; then
+if [[ ! -f "$f5" ]]
+then
 	hisat2-build hg38.fa hg38.fa
 else
         echo " indexed genome is present"
