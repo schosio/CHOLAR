@@ -1,5 +1,6 @@
 
-description=$(zenity --forms --title="Identification of LncRNA" --text="Input names without (_1/_2) and other underscore ("_")" --add-entry="SAMPLE NAMES 
+description=$(zenity --forms --title="Identification of LncRNA" \
+--text="Input names without (_1/_2) and other underscore ("_")" --add-entry="SAMPLE NAMES 
 (sep by ',')
 [Samplel,Sample2,Sample3,Sample4]" --add-entry="SAMPLE TYPES (sep by ',')
 { add condion in same order as sample } [cntrl,cntrl,treat,treat]")
@@ -19,37 +20,43 @@ arr2=($array2)
 zenity --info --title="Annotation GTF file" --text="Select Annotation GTF file" --ok-label="OK" 
 [[ $? != 0 ]] && exit 1
 
-GTF=$(zenity --file-selection --filename $HOME/C_files/genome/human/hg38/annotation/gencode.v40.chr_patch_hapl_scaff.annotation.gtf --title="***Annotation GTF file***"  --text="Select Annoatation GTF file")
+GTF=$(zenity --file-selection --filename $HOME/C_files/genome/human/hg38/annotation/gencode.v40.chr_patch_hapl_scaff.annotation.gtf \
+--title="***Annotation GTF file***"  --text="Select Annoatation GTF file")
 [[ $? != 0 ]] && exit 1
 
 zenity --info --title="Splice Site file" --text="Select Splice Site file" --ok-label="OK" 
 [[ $? != 0 ]] && exit 1
 
-SS=$(zenity --file-selection --filename $HOME/C_files/genome/human/hg38/annotation/gencode.v40.splicesite.annotation.ss --title="***Splice Site file***"  --text="Select Splice Site file")
+SS=$(zenity --file-selection --filename $HOME/C_files/genome/human/hg38/annotation/gencode.v40.splicesite.annotation.ss \
+--title="***Splice Site file***"  --text="Select Splice Site file")
 [[ $? != 0 ]] && exit 1
 
 zenity --info --title="Reference genome" --text="Select reference genome" --ok-label="OK" 
 [[ $? != 0 ]] && exit 1
 
-REF=$(zenity --file-selection --filename $HOME/C_files/genome/human/hg38/ref_gen/hg38.fa --title="***Reference genome***"  --text="Select reference genome")
+REF=$(zenity --file-selection --filename $HOME/C_files/genome/human/hg38/ref_gen/hg38.fa \
+--title="***Reference genome***" --text="Select reference genome")
 [[ $? != 0 ]] && exit 1
 
 zenity --info --title="Script path" --text="Select script directory" --ok-label="OK" 
 [[ $? != 0 ]] && exit 1
 
-R=$(zenity --file-selection --directory --filename $PWD --title="***Script path***"  --text="Select script directory")
+R=$(zenity --file-selection --directory --filename $PWD --title="***Script path***"  \
+--text="Select script directory")
 [[ $? != 0 ]] && exit 1
 
 zenity --info --title="Input files directory" --text="Select Input files directory" --ok-label="OK" 
 [[ $? != 0 ]] && exit 1
 
-IN=$(zenity --file-selection --directory --title="***Input Files directory***"  --text="Select Input files directory")
+IN=$(zenity --file-selection --directory --title="***Input Files directory***"  \
+--text="Select Input files directory")
 [[ $? != 0 ]] && exit 1
 
 zenity --info --title="Log directory" --text="Select log directory" --ok-label="OK" 
 [[ $? != 0 ]] && exit 1
 
-LOGF=$(zenity --file-selection --directory --filename $IN --title="***Log directory***"  --text="Select log directory")
+LOGF=$(zenity --file-selection --directory --filename $IN --title="***Log directory***"  \
+--text="Select log directory")
 [[ $? != 0 ]] && exit 1
 
 len=${#arr[@]}
