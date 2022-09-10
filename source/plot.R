@@ -46,13 +46,32 @@ res<-res[order(res$padj),]
 ## MA PLOT 
 
 head(res)
-tiff("deseq2_MAplot_gt20_res2.tiff",height=1200,width=1200,res=300)
+tiff("Basic_MAplot.tiff",height=1200,width=1200,res=300)
 plotMA(res,ylim=c(-7,7),main='DESeq2')
 dev.off()
 
 ## Output DEG file
 
 write.csv(as.data.frame(res),file='DEG.csv')
+results <- read.csv("DEG.csv")
+results = results[!duplicated(results$X),]
+
+
+## Enhanced MA plot
+library(scales)
+library(viridis)
+
+ResDF <- as.data.frame(results)
+ResDF$significant <- ifelse(ResDF$padj < .1, "Significant", NA)
+
+tiff("Enhanced_MAplot.tiff",height=1200,width=1200,res=300)
+ggplot(ResDF, aes(baseMean, log2FoldChange, colour=padj)) + 
+  geom_point(size=1) + scale_y_continuous(limits=c(-12, 12), oob=squish) + 
+  scale_x_log10()  + geom_hline(yintercept = 0, colour="darkorchid4", size=1, linetype="longdash") + 
+  labs(x="mean of normalized counts", y="log fold change") + 
+  scale_colour_viridis(direction=-1, trans='sqrt') + theme_bw() + ggtitle("MA PLOT")
+dev.off()
+
 
 ## PLOT COUNT
 #loop to generate plot count for novel lncRNAs present in the list
@@ -62,21 +81,44 @@ write.csv(as.data.frame(res),file='DEG.csv')
 
 
 #volcano plot
-results <- read.csv("DEG.csv")
-results = results[!duplicated(results$X),]
+
+
 #results = results[!duplicated(results$SYMBOL),]
 library(ggrepel)
 library(dplyr)
 library(ggplot2)
+library("EnhancedVolcano")
 out_file <- results[results$padj<0.05 & abs(results$log2FoldChange)>1,]
 #results <- results[abs(results$log2FoldChange)>1,]
 results=mutate(results, sig=ifelse(results$padj<0.05 & abs(results$log2FoldChange)>1, "Sig", "Not Sig"))
 results = na.omit(results)
-tiff("volcano_plot.tiff",height=1200,width=1200,res=300)
+tiff("basic_volcano_plot.tiff",height=1200,width=1200,res=300)
 ggplot(results, aes(log2FoldChange, -log10(padj))) +
   geom_point(aes(col=sig)) +  ylim(c(0,2)) + xlim(c(-5,5)) +
   scale_color_manual(values=c("black", "#ca0020")) + 
   ggtitle("Volcano Plot")
+dev.off()
+
+## enhanced volcano plot
+tiff("Enhanced_volcano_plot.tiff",height=1200,width=1200,res=300)
+EnhancedVolcano(results,
+                lab = rownames(results),
+                x = 'log2FoldChange',
+                y = 'padj',
+                pCutoff = 10e-4,
+                FCcutoff = 1,
+                legendLabels=c('Not sig.','Log (base 2) FC','p-value',
+                               'p-value & Log (base 2) FC'),
+                legendLabSize = 12,
+                legendIconSize = 5.0,
+                pointSize = 2.0,
+                labSize = 4.0,
+                col = c('black', 'purple', 'pink', 'red3'),
+                colAlpha = 4/5,
+                drawConnectors = TRUE,
+                widthConnectors = 0.5,
+                legendPosition = 'right',
+)
 dev.off()
 
 #heatmap
