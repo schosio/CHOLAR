@@ -12,6 +12,8 @@
 
 ## What does CHOLAR do?
 
+It extracts the list of known and novel lncRNAs from any RNA-seq dataset. As of now, the tool is resticted to human datasets, but we are working hard to include other model organism too.
+
 ## Installation
 
 ### For macOS users
