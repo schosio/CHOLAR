@@ -1,21 +1,32 @@
 #!/usr/bin/env Rscript
 
+BiocManager::install("apeglm")
 
 # library(BiocManager)
 # calling DESeq2 library
-library(DESeq2)
-
+library("DESeq2")
+library("apeglm")
+setwd("/Users/mokira/PROJECT_lncrna/PROJECT_exosome/htseq_files/")
 directory = getwd()
 # table contating count file names
 meta <- data.frame('file_name'=grep('count.txt',list.files(directory),value=TRUE))
 # adding empty coloumn for condition
 #meta$condition <- NA
 # filling values for condition
-#automate the prefix input #help : https://stackoverflow.com/questions/52060891/extract-substring-in-r-using-grepl
+#automate the prefix input 
+#help : https://stackoverflow.com/questions/52060891/extract-substring-in-r-using-grepl
 g = regmatches(meta$file_name, regexpr("(?<=)[^ ]+(?=[-])", meta$file_name, perl = TRUE))
+#g2 = as.vector(g)
 g2 = as.data.frame(g)
-meta$condition = cbind(g2)
-#for (i in 1:nrow(meta)){meta$condition[i] <- if (grepl("PCUE",meta$file_name[i])) "PCUE" else "BPHUE"}
+#meta$condition = ""
+#meta2 = meta
+#meta2$condition <- 
+
+meta$condition <- cbind(g2)
+
+colnames(meta2$condition)[2] = "condition"
+#for (i in 1:nrow(meta)){meta$condition[i] <- if (grepl("PCUE",meta$file_name[i]))
+# "PCUE" else "BPHUE"}
 # making variable for table that'll be given as input to DESEq
 # sampleFiles will have file names
 sampleFiles<-as.character(meta$file_name)
@@ -40,13 +51,29 @@ ddsHTSeq <- ddsHTSeq[ rowSums(counts(ddsHTSeq)) > 20, ]
 dds<-DESeq(ddsHTSeq)
 # saving results in res
 res<-results(dds)
+
+# check the summary of results
+
+summary(res)
+
+# Log fold change shrinkage for visualization and ranking
+resultsNames(dds)
+resLFC <- lfcShrink(dds, coef = "condition_PCUE_vs_BPHUE", type = "apeglm")
+
 # sorting based on padj values
 res<-res[order(res$padj),]
 
+res2<-na.omit(res)
+res2<-res2[which(abs(res$log2FoldChange) >= abs(7)),]
 ## MA PLOT 
+plotMA(resLFC, ylim=c(-6,10), main="DESeq2")
 
 head(res)
+<<<<<<< Updated upstream
 tiff("Basic_MAplot.tiff",height=1200,width=1200,res=300)
+=======
+tiff("deseq2_MAplot_countgt20_res.tiff",height=1200,width=1200,res=300)
+>>>>>>> Stashed changes
 plotMA(res,ylim=c(-7,7),main='DESeq2')
 dev.off()
 
@@ -72,6 +99,11 @@ ggplot(ResDF, aes(baseMean, log2FoldChange, colour=padj)) +
   scale_colour_viridis(direction=-1, trans='sqrt') + theme_bw() + ggtitle("MA PLOT")
 dev.off()
 
+
+
+hist(resLFC$padj, col = "grey", border = "white", xlab = "P-adj",
+     ylab = "Number of genes", main = "P-adj value distribution")
+abline(h=1)
 
 ## PLOT COUNT
 #loop to generate plot count for novel lncRNAs present in the list
