@@ -1,3 +1,19 @@
+#!/bin/bash
+#
+# Script Name: CHOLAR_GUI.sh
+# Author: Haneesh J
+# Date: September 23, 2021
+#
+# Description: The following script is for GUI implemented in the zenity tool.
+#
+#
+# Input type: NA
+# Output: NA
+#
+#
+# Storing the error information of in the output directory passed as an argument
+
+
 
 description=$(zenity --forms --title="Identification of LncRNA" \
 --text="Input names without (_1/_2) and other underscore ("_")" --add-entry="SAMPLE NAMES 
