@@ -1,5 +1,17 @@
 #!/bin/bash
- 
+# Script Name: configure.sh
+# Author: Haneesh J
+# Date: September 23, 2021
+#
+# Description: The following script is to configure the linux (UBUNTU or CentOS) system with NGS tools and files 
+#              required for RNA-seq analysis i.e. reference genome, reference annotation file 
+#
+#
+# Input type: NA
+# Output: NA
+#
+#
+# Storing the error information of in the output directory passed as an argument 
 
 linux_dep=( zenity curl parallel python3-pip git libcurl4-openssl-dev \
         libmagick++-dev libmariadbclient-dev libssl-dev)
