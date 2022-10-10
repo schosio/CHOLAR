@@ -31,11 +31,21 @@ unzip
 
 ### For Ubuntu/CentOS users
 
+Download the zip file for CHOLAR from [here][zip] *or*
+
+Download the tar file for CHOLAR from [here][tar]
+
+
+After download unzip the file using:
+```sh
+unzip
+```
+
+
 ## Configuration
 
-## Using CHOLAR
 
-1. Execute the configure file on LINUX/UNIX system using terminal:
+Execute the configure file on LINUX/UNIX system using terminal:
 
 ```sh
 bash configure.sh
@@ -44,14 +54,17 @@ bash configure.sh
 This will prompt to give password. Enter it and let the script run.
 
 
-2. Then execute CHOLOAR GUI file using:
+## Using CHOLAR
+
+
+Execute CHOLOAR GUI file using:
 
 ```sh
 bash CHOLAR_GUI.sh
 ```
 
 
- 2.1 This will pop up a window to input sample names in the box and sample condition separated by comma.
+1.1 This will pop up a window to input sample names in the box and sample condition separated by comma.
 
 ![Input window](src/docu_1.png)
 
@@ -61,6 +74,8 @@ bash CHOLAR_GUI.sh
 ![Annotation selection](src/docu_3.png)
 
 ## Troubleshoot
+
+
 
 ## Authors
 
