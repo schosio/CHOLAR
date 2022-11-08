@@ -11,7 +11,7 @@
 # Output: NA
 #
 #
-# Storing the error information of in the output directory passed as an argument 
+#
 
 linux_dep=( zenity curl parallel python3-pip git libcurl4-openssl-dev \
         libmagick++-dev libmariadbclient-dev libssl-dev)
