@@ -14,7 +14,7 @@
 #
 
 linux_dep=( zenity curl parallel python3-pip git libcurl4-openssl-dev \
-        libmagick++-dev libmariadbclient-dev libssl-dev)
+        libmagick++-dev libmariadbclient-dev libssl-dev r-base)
 
 
 if [[ -n "$( uname | grep Darwin)" ]]
@@ -102,250 +102,123 @@ fi
 
 ###########################    ##############################
 
+genome_dep=( fastqc multiqc hisat2 samtools )
 
-if [[ (-z "$(which conda | grep conda)") && (-n "$( uname | grep Darwin)") ]]
+
+if [[ -n "$( uname | grep Darwin)" ]]
         then
         
-        echo "
+        for i in ${genome_dep[@]}
+                do
+                echo "
               #########################################
-              System is macOS and conda is not installed
+                           System is macOS 
+              #########################################  
+                         Checking dependencies
+              ######################################### 
+                     Installing the $i !!
+              #########################################"
+                brew install $i
+                done                        
+
+elif [[ -n "$(expr substr $(uname -s) 1 5 | grep Linux)" ]]
+        then
+        
+        if [[ -n "$(awk -F= '/^NAME/{print $2}' /etc/os-release | tr -d '"' \
+                | grep Ubuntu)" ]]
+                then
+
+                for i in ${genome_dep[@]}
+                        do
+                        if [[ -z "$(which $i | grep $i)" ]]
+				then
+        			echo "
+              #########################################
+                         $i not installed
               #########################################  
                          So let's install it
-              ######################################### 
-                     Installing Miniconda now !!
               #########################################
+                       Installing $i now !!
+              #########################################
+              "
+        			sudo apt-get install -y $i
         
-        For further reading visit https://docs.conda.io/projects/conda/en/latest/user-guide/install/linux.html
-              #########################################"
-        curl -O https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
-        sudo bash Miniconda3-latest-MacOSX-x86_64.sh -b
-        eval "$($HOME/miniconda3/bin/conda shell.zsh hook)"
-        source $HOME/miniconda3/bin/activate
-        sudo mkdir -p $HOME/miniconda3/c_pkgs
-        sudo conda config --add pkgs_dirs c_pkgs
-
-        ## Creating and activating conda environment named base
-        rm Miniconda3-latest-MacOSX-x86_64.sh -b
-        echo "
+       		 		echo "
               ##########################################
-                        Miniconda is Installed 
-                         on your macOS system  
-                      NGS environment is created
-                            and activated   
+              
+                          Installed $i      
+                        
               ##########################################
               "
-        
-elif [[ (-z "$(which conda | grep conda)") && (-n "$(expr substr $(uname -s) 1 5 \
-        | grep Linux)") ]]
-        then
-        
-        echo "
+               
+			else
+      				echo "
+              ##########################################
+              
+                     $i is already installed      
+                        
+              ##########################################
+              "
+			fi
+			
+		
+                        done
+
+        elif [[ -n "$(awk -F= '/^NAME/{print $2}' /etc/os-release | tr -d '"' \
+                | grep CentOS)" ]]
+                then
+                
+                for i in ${genome_dep[@]}
+                        do
+                        if [[ -z "$(which $i | grep $i)" ]]
+				then
+        			echo "
               #########################################
-                System is LINUX and conda is not installed
+                         $i not installed
               #########################################  
                          So let's install it
-              ######################################### 
-                     Installing Miniconda now !!
               #########################################
+                       Installing $i now !!
+              #########################################
+              "
+        			sudo apt-get install -y $i
         
-        For further reading visit https://docs.conda.io/projects/conda/en/latest/user-guide/install/linux.html
-              #########################################"
-        curl -O https://repo.anaconda.com/miniconda/Miniconda3-py39_4.11.0-Linux-x86_64.sh
-        sudo bash Miniconda3-py39_4.11.0-Linux-x86_64.sh -b 
-        eval "$($HOME/miniconda3/bin/conda shell.bash hook)"
-        source ~/.bashrc
-        
-        ## Creating and activating conda environment named ngs
-        rm Miniconda3-py39_4.11.0-Linux-x86_64.sh
-        echo "
+       		 		echo "
               ##########################################
-                        Miniconda is Installed 
-                         on your Linux system  
-                      NGS environment is created
-                            and activated   
+              
+                          Installed $i      
+                        
               ##########################################
               "
-elif [[ (-n "$(which conda | grep conda)") && (-n "$( uname | grep Darwin)") ]]
-        then
-        
-        sudo mkdir -p $HOME/miniconda3/c_pkgs
-        sudo conda config --add pkgs_dirs c_pkgs
-
-elif [[ (-n "$(which conda | grep conda)") && (-n "$(expr substr $(uname -s) 1 5 \
-        | grep Linux)") && (-n "$(conda env list | grep ngs)") ]]
-        then
-        
-        if [[ -d ~/miniconda3 ]]
-        then
-       
-        source ~/miniconda3/etc/profile.d/conda.sh
-        conda activate ngs
-        echo "
+               
+			else
+      				echo "
               ##########################################
-                    Miniconda is already Installed
-                      NGS environment is present
-                          NGS is Activated      
+              
+                     $i is already installed      
+                        
               ##########################################
               "
-        elif [[ -d ~/anaconda3 ]]
-        then
-       
-        source ~/anaconda3/etc/profile.d/conda.sh
-        conda activate ngs
-        echo "
-              ##########################################
-                    Anaconda is already Installed
-                      NGS environment is present
-                          NGS is Activated      
-              ##########################################
-              "
+			fi
+                        done
         fi
-
-elif [[ (-n "$(which conda | grep conda)") && (-z "$(conda env list | grep ngs)") \
-        &&  (-n "$(expr substr $(uname -s) 1 5 | grep Linux)") ]]
-        then
         
-        conda create -q -y -n ngs python=3
-	conda init bash
-	source ~/.bashrc
-        
-        if [[ -d ~/miniconda3 ]]
-        then
-       
-        source ~/miniconda3/etc/profile.d/conda.sh
-        conda activate ngs
-        echo "
-              #########################################
-                    NGS is created and activated
-              #########################################  
-        "
-        elif [[ -d ~/anaconda3 ]]
-        then
-       
-        source ~/anaconda3/etc/profile.d/conda.sh
-        conda activate ngs
-        echo "
-              #########################################
-                    NGS is created and activated
-              #########################################  
-        "
-        fi
-fi
+ fi
 
-conda_dep=( fastqc multiqc hisat2 samtools stringtie gffcompare gffread)
-
-for i in ${conda_dep[@]}
-        do
-
-        if [[ -z "$(which $i | grep $i)" ]]
-        then
-                echo "
-                      #########################################
-                               $i not installed
-                      #########################################  
-                                So lets install it
-                      #########################################
-                              Installing $i now !!
-                      #########################################
-                      "
-                conda install -q -y -c bioconda $i
-
-                echo "
-                      ##########################################
-
-                                   Installed $i
-
-                      ##########################################
-                      "
-
-                echo $i
-
-        elif [[ (-n "$(which $i | grep $i)") && (-z "$(which $i | grep envs)") ]]
-        then
-
-                echo "
-                      #########################################
-                               $i not installed on env
-                      #########################################  
-                                So let install it
-                      #########################################
-                              Installing $i now !!
-                      #########################################
-                      "
-                conda install -q -y -c bioconda $i
-
-                echo "
-                      ##########################################
-
-                                   Installed $i
-
-                      ##########################################
-                      "
-        elif [[ (-z "$(which $i | grep $i)") && (-z "$(which $i | grep envs)") ]]
-        then
-                echo "
-                      #########################################
-                               $i not installed on env
-                      #########################################  
-                                So let install it
-                      #########################################
-                              Installing $i now !!
-                      #########################################
-                      "
-                conda install -q -y -c bioconda $i
-
-                echo "
-                      ##########################################
-
-                                   Installed $i
-
-                      ##########################################
-                      "
-
-
-
-        else
-                echo "
-                              ##########################################
-
-                                     $i is already installed
-
-                              ##########################################
-                              "
-        fi
-done
-
-
-
-
+ #######################  ###########################################
 
 
 if [[ -z "$(which htseq-count | grep htseq-count)" ]]
 then
-        echo "
-              #########################################
-                         htseq not installed
-              #########################################  
-                         So let's install it
-              #########################################
-                       Installing htseq now !!
-              #########################################
-              "
-        conda install -q -y -c bioconda htseq
         
-        echo "
-              ##########################################
-              
-                          Installed htseq      
-                        
-              ##########################################
-              "
+        pip install HTSeq
+        
                
 else
       	echo "
               ##########################################
               
-                     htseq is already installed      
+                     HTSeq is already installed      
                         
               ##########################################
               "
@@ -353,87 +226,7 @@ fi
 
 
 
-if [[ -z "$(which R | grep R)" ]]
-then
-        echo "
-              #########################################
-                   r not installed on the system
-              #########################################  
-                        So let's install it
-              #########################################
-                         Installing r now !!
-              #########################################
-              "
-             
-             
-        conda config --add channels conda-forge
-        conda config --set channel_priority strict
-        conda install -q -y -c conda-forge r-base
-        
-             
-        echo "
-              ##########################################
-              
-                           Installed r      
-                        
-              ##########################################
-              "
-elif [[ ( -n "$(which R | grep R)") && (-z "$(which R | grep envs)") ]]
-then
-        echo "
-              #########################################
-                   r not installed on conda env
-              #########################################  
-                         So let's install it
-              #########################################
-                       Installing r now !!
-              #########################################
-              "
-             
-             
-        conda config --add channels conda-forge
-        conda config --set channel_priority strict
-        conda install -q -y -c conda-forge r-base
-        
-             
-        echo "
-              ##########################################
-              
-                          Installed r      
-                        
-              ##########################################
-              "
 
-elif [[ (-n "$(which R | grep envs)") && ( $(R --version | grep "R version" \
-        | cut -d " " -f3 | cut -d "." -f1) -le 3 ) ]]
-then
-      	
-                
-                
-        echo "
-        ##########################################
-        
-         r is already installed but version is <4      
-                  
-        ##########################################
-        
-                     So let's update it
-        
-        ##########################################
-        "
-        
-        conda config --add channels conda-forge
-        conda config --set channel_priority strict
-        conda update -y -q -c conda-forge r-base
-        echo "
-                ##########################################
-                
-                       Updated R version to current one      
-                          
-                ##########################################
-                "
-	
-fi                     
 
 # download and place Trimmomatic
 d1=$HOME/C_files/application
@@ -461,6 +254,39 @@ then
 else 
         echo" Trimmomatic is present"
 
+fi
+
+# download and place stringtie, gffcompare, gffread
+d1=$HOME/C_files/application
+if [[ ! -d "$d1" ]]
+then
+	mkdir -p $HOME/C_files/application
+	if [[ -z "$(which stringtie | grep stringtie)" ]]
+        then
+		wget http://ccb.jhu.edu/software/stringtie/dl/stringtie-2.1.6.Linux_x86_64.tar.gz
+  		tar -xzvf stringtie-2.1.6.Linux_x86_64.tar.gz
+		cd stringtie-2.1.6.Linux_x86_64
+		make release
+	
+	fi
+elif [[ (-d "$d1") && (-z "$(which stringtie | grep stringtie)") ]]
+then
+        wget http://ccb.jhu.edu/software/stringtie/dl/stringtie-2.1.6.Linux_x86_64.tar.gz
+  	tar -xzvf stringtie-2.1.6.Linux_x86_64.tar.gz
+	cd stringtie-2.1.6.Linux_x86_64
+	make release
+else 
+        echo" stringtie is present"
+
+fi
+########
+if [[ -z "$(which gffcompare | grep gffcompare)" ]]
+then
+        wget http://ccb.jhu.edu/software/stringtie/dl/gffcompare-0.12.6.Linux_x86_64.tar.gz
+	tar -xzvf gffcompare-0.12.6.Linux_x86_64.tar.gz
+	cd gffcompare-0.12.6.Linux_x86_64/
+else 
+        echo " is present"
 fi
 
 # install CPAT
