@@ -6,7 +6,7 @@ BiocManager::install("apeglm")
 # calling DESeq2 library
 library("DESeq2")
 library("apeglm")
-setwd("/Users/mokira/PROJECT_lncrna/PROJECT_exosome/htseq_files/")
+#setwd("/Users/mokira/PROJECT_lncrna/PROJECT_exosome/htseq_files/")
 directory = getwd()
 # table contating count file names
 meta <- data.frame('file_name'=grep('count.txt',list.files(directory),value=TRUE))
